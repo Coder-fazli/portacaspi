@@ -1,0 +1,142 @@
+.wb-selector {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.wb-bg {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.wb-pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    width: 36px;
+    height: 44px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.wb-pin::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 36px;
+    height: 36px;
+    background: #0d2438;
+    border-radius: 50% 50% 50% 0;
+    transform: translateX(-50%) rotate(45deg);
+    transition: background .25s ease;
+}
+
+.wb-pin-number {
+    position: absolute;
+    left: 50%;
+    top: 16px;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    z-index: 1;
+}
+
+.wb-pin.active::before {
+    background: #d9a26d;
+}
+
+.wb-pin.active .wb-pin-number {
+    display: none;
+}
+
+.wb-card {
+    position: absolute;
+    transform: translate(20px, -20%);
+    width: 320px;
+    max-width: 80vw;
+    background: #f5f1e8;
+    padding: 32px;
+    box-sizing: border-box;
+    line-height: 1.4;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease;
+    z-index: 3;
+}
+
+.wb-card.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.wb-card.wb-card-flip {
+    transform: translate(calc(-100% - 20px), -20%);
+}
+
+.wb-card-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.wb-card-number {
+    font-size: 48px;
+    line-height: 1;
+    color: #0d2438;
+}
+
+.wb-card-label,
+.wb-card-delivery-label {
+    font-size: 12px;
+    letter-spacing: .05em;
+    color: #7a7266;
+    text-transform: uppercase;
+}
+
+.wb-card-price,
+.wb-card-size {
+    font-size: 15px;
+    color: #0d2438;
+}
+
+.wb-card hr {
+    border: none;
+    border-top: 1px solid #ddd6c8;
+    margin: 20px 0;
+}
+
+.wb-card-delivery-value {
+    font-size: 15px;
+    color: #0d2438;
+    margin-top: 4px;
+}
+
+.wb-card-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: #0d2438;
+    text-decoration: underline;
+}
+
+@media (max-width: 767px) {
+    .wb-card {
+        position: fixed;
+        left: 50% !important;
+        top: auto !important;
+        bottom: 16px;
+        transform: translateX(-50%) !important;
+        width: calc(100% - 32px);
+    }
+
+    .wb-card.wb-card-flip {
+        transform: translateX(-50%) !important;
+    }
+}
