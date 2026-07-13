@@ -112,6 +112,21 @@ class Westio_Child_Building_Selector extends Widget_Base {
         $this->end_controls_section();
     }
 
+    private function get_svg_overlay_markup() {
+        $path = get_stylesheet_directory() . '/assets/images/buildings-demo-overlay.svg';
+
+        if (!file_exists($path)) {
+            return '';
+        }
+
+        $markup = file_get_contents($path);
+        // Drop the fixed width/height so the overlay scales with the container; viewBox keeps shapes aligned.
+        $markup = preg_replace('/(<svg[^>]*)\swidth="[^"]*"/i', '$1', $markup, 1);
+        $markup = preg_replace('/(<svg[^>]*)\sheight="[^"]*"/i', '$1', $markup, 1);
+
+        return $markup;
+    }
+
     protected function render() {
         $settings  = $this->get_settings_for_display();
         $buildings = $settings['buildings'];
@@ -120,16 +135,21 @@ class Westio_Child_Building_Selector extends Widget_Base {
             return;
         }
 
-        $bg_url = !empty($settings['bg_image']['url']) ? $settings['bg_image']['url'] : Utils::get_placeholder_image_src();
+        $bg_url      = !empty($settings['bg_image']['url']) ? $settings['bg_image']['url'] : Utils::get_placeholder_image_src();
+        $svg_overlay = $this->get_svg_overlay_markup();
         ?>
         <div class="wb-selector">
             <img class="wb-bg" src="<?php echo esc_url($bg_url); ?>" alt="">
+
+            <?php if ($svg_overlay) : ?>
+                <div class="wb-svg-overlay"><?php echo $svg_overlay; ?></div>
+            <?php endif; ?>
 
             <?php foreach ($buildings as $i => $b) :
                 $x = isset($b['pos_x']['size']) ? $b['pos_x']['size'] : 50;
                 $y = isset($b['pos_y']['size']) ? $b['pos_y']['size'] : 50;
                 ?>
-                <button type="button" class="wb-pin" data-i="<?php echo esc_attr($i); ?>" style="left:<?php echo esc_attr($x); ?>%;top:<?php echo esc_attr($y); ?>%;">
+                <button type="button" class="wb-pin" data-i="<?php echo esc_attr($i); ?>" data-number="<?php echo esc_attr($b['number']); ?>" style="left:<?php echo esc_attr($x); ?>%;top:<?php echo esc_attr($y); ?>%;">
                     <span class="wb-pin-number"><?php echo esc_html($b['number']); ?></span>
                 </button>
             <?php endforeach; ?>
@@ -138,7 +158,7 @@ class Westio_Child_Building_Selector extends Widget_Base {
                 $x = isset($b['pos_x']['size']) ? $b['pos_x']['size'] : 50;
                 $y = isset($b['pos_y']['size']) ? $b['pos_y']['size'] : 50;
                 ?>
-                <div class="wb-card" data-i="<?php echo esc_attr($i); ?>" style="left:<?php echo esc_attr($x); ?>%;top:<?php echo esc_attr($y); ?>%;">
+                <div class="wb-card" data-i="<?php echo esc_attr($i); ?>" data-number="<?php echo esc_attr($b['number']); ?>" style="left:<?php echo esc_attr($x); ?>%;top:<?php echo esc_attr($y); ?>%;">
                     <div class="wb-card-top">
                         <div class="wb-card-number"><?php echo esc_html($b['apartments']); ?></div>
                         <div class="wb-card-label"><?php esc_html_e('КВАРТИР', 'westio-child'); ?></div>

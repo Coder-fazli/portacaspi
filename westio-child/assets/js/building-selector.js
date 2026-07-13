@@ -7,31 +7,51 @@
 
         var pins  = root.querySelectorAll('.wb-pin');
         var cards = root.querySelectorAll('.wb-card');
+        var svgShapes = root.querySelectorAll('.plan__svg__hoverable');
 
         function closeAll() {
             pins.forEach(function (p) { p.classList.remove('active'); });
             cards.forEach(function (c) { c.classList.remove('active', 'wb-card-flip'); });
+            svgShapes.forEach(function (s) { s.classList.remove('active'); });
         }
 
-        pins.forEach(function (pin) {
-            pin.addEventListener('click', function (e) {
-                e.stopPropagation();
-                var i        = pin.getAttribute('data-i');
-                var wasOpen  = pin.classList.contains('active');
-                closeAll();
+        function activate(number) {
+            var wasOpen = root.querySelector('.wb-pin[data-number="' + number + '"].active');
+            closeAll();
 
-                if (wasOpen) {
-                    return;
-                }
+            if (wasOpen) {
+                return;
+            }
 
+            var pin  = root.querySelector('.wb-pin[data-number="' + number + '"]');
+            var card = root.querySelector('.wb-card[data-number="' + number + '"]');
+            var shape = root.querySelector('.plan__svg__hoverable[data-nr="' + number + '"]');
+
+            if (pin) {
                 pin.classList.add('active');
-                var card = root.querySelector('.wb-card[data-i="' + i + '"]');
                 if (card) {
                     card.classList.add('active');
                     if (parseFloat(pin.style.left) > 55) {
                         card.classList.add('wb-card-flip');
                     }
                 }
+            }
+            if (shape) {
+                shape.classList.add('active');
+            }
+        }
+
+        pins.forEach(function (pin) {
+            pin.addEventListener('click', function (e) {
+                e.stopPropagation();
+                activate(pin.getAttribute('data-number'));
+            });
+        });
+
+        svgShapes.forEach(function (shape) {
+            shape.addEventListener('click', function (e) {
+                e.stopPropagation();
+                activate(shape.getAttribute('data-nr'));
             });
         });
 

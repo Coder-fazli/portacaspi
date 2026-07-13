@@ -11,6 +11,42 @@
     height: auto;
 }
 
+.wb-svg-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.wb-svg-overlay svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.wb-svg-overlay path.plan__svg__anchor {
+    display: none;
+}
+
+.wb-svg-overlay path.plan__svg__hoverable {
+    fill: #d9a26d;
+    stroke: none;
+    opacity: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: opacity .25s ease;
+}
+
+.wb-svg-overlay path.plan__svg__hoverable:hover {
+    opacity: .35;
+}
+
+.wb-svg-overlay path.plan__svg__hoverable.active {
+    opacity: .55;
+}
+
 .wb-pin {
     position: absolute;
     transform: translate(-50%, -100%);
