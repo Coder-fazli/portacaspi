@@ -7,6 +7,21 @@
     gap: 24px;
 }
 
+/* Kill default list bullets on menu items */
+.site-header .main-navigation ul,
+.site-header .main-navigation li,
+.wc-lang-switcher ul,
+.wc-lang-switcher li {
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.site-header .main-navigation li::marker,
+.wc-lang-switcher li::marker {
+    content: none;
+}
+
 /* Language switcher: AZ | EN | RU */
 .wc-lang-switcher ul {
     display: flex;
