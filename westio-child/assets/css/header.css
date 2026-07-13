@@ -48,6 +48,10 @@
     font-family: inherit;
 }
 
+.wc-lang-globe {
+    display: block;
+}
+
 .wc-lang-arrow {
     width: 7px;
     height: 7px;
