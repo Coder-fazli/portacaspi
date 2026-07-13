@@ -26,12 +26,17 @@ $wc_cta_url   = function_exists('pll__') ? pll__('/elaqe/') : '/elaqe/';
             <div class="header-right desktop-hide-down">
                 <div class="header-group-action wc-header-actions">
 
-                    <?php if (function_exists('pll_the_languages')) : ?>
+                    <?php if (function_exists('pll_the_languages') && function_exists('pll_current_language')) : ?>
                         <nav class="wc-lang-switcher" aria-label="<?php esc_attr_e('Language', 'westio-child'); ?>">
-                            <ul>
+                            <button type="button" class="wc-lang-current" aria-haspopup="true" aria-expanded="false">
+                                <?php echo esc_html(strtoupper(pll_current_language('slug'))); ?>
+                                <span class="wc-lang-arrow" aria-hidden="true"></span>
+                            </button>
+                            <ul class="wc-lang-dropdown">
                                 <?php pll_the_languages([
                                     'show_flags'       => 0,
                                     'display_names_as' => 'slug',
+                                    'hide_current'     => 1,
                                     'hide_if_empty'    => 0,
                                 ]); ?>
                             </ul>
