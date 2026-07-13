@@ -41,4 +41,21 @@ add_action('wp_enqueue_scripts', function () {
         [],
         file_exists($typo_path) ? filemtime($typo_path) : '1.0.0'
     );
+
+    $header_path = get_stylesheet_directory() . '/assets/css/header.css';
+    wp_enqueue_style(
+        'westio-child-header',
+        get_stylesheet_directory_uri() . '/assets/css/header.css',
+        [],
+        file_exists($header_path) ? filemtime($header_path) : '1.0.0'
+    );
 }, 20);
+
+// Make custom header strings translatable in Polylang (Languages → Translations).
+add_action('init', function () {
+    if (function_exists('pll_register_string')) {
+        pll_register_string('header-phone', get_theme_mod('wc_header_phone', '+994 12 345 67 89'), 'westio-child');
+        pll_register_string('header-cta-label', 'Əlaqə', 'westio-child');
+        pll_register_string('header-cta-url', '/elaqe/', 'westio-child');
+    }
+});

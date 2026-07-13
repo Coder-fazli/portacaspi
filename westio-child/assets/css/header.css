@@ -1,0 +1,64 @@
+/* Custom header additions — inherits Westio's header-1 layout,
+   styles only the new right-side elements. */
+
+.wc-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* Language switcher: AZ | EN | RU */
+.wc-lang-switcher ul {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.wc-lang-switcher li a {
+    display: inline-block;
+    padding: 4px 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: inherit;
+    opacity: .55;
+    transition: opacity .2s ease;
+}
+
+.wc-lang-switcher li a:hover {
+    opacity: 1;
+}
+
+.wc-lang-switcher li.current-lang a {
+    opacity: 1;
+    border-bottom: 1px solid currentColor;
+}
+
+.wc-header-phone {
+    font-size: 15px;
+    font-weight: 600;
+    color: inherit;
+    white-space: nowrap;
+}
+
+.wc-header-cta {
+    display: inline-block;
+    padding: 12px 28px;
+    border: 1px solid var(--e-global-color-primary, #BDAD7B);
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    color: inherit;
+    white-space: nowrap;
+    transition: background .25s ease, color .25s ease;
+}
+
+.wc-header-cta:hover {
+    background: var(--e-global-color-primary, #BDAD7B);
+    color: #fff;
+}
