@@ -1,0 +1,24 @@
+/*
+ * Site-wide font override: Montserrat (full Azerbaijani support — ə Ə ğ ı İ ş ç ö ü).
+ * The parent theme's fonts (Vend Sans / Space Grotesk) lack U+0259 (ə),
+ * so Azerbaijani text fell back to a mismatched system font.
+ */
+
+body[class*="elementor-kit-"] {
+    --e-global-typography-primary-font-family: "Montserrat";
+    --e-global-typography-secondary-font-family: "Montserrat";
+    --e-global-typography-text-font-family: "Montserrat";
+    --e-global-typography-accent-font-family: "Montserrat";
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font-family: "Montserrat", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Montserrat", sans-serif;
+}

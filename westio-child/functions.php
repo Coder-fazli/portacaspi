@@ -25,3 +25,20 @@ add_action('elementor/frontend/after_register_scripts', function () {
 add_action('elementor/widgets/register', function ($widgets_manager) {
     require_once get_stylesheet_directory() . '/inc/elementor/widget-building-selector.php';
 });
+
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_style(
+        'westio-child-google-fonts',
+        'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..800;1,300..800&display=swap',
+        [],
+        null
+    );
+
+    $typo_path = get_stylesheet_directory() . '/assets/css/typography.css';
+    wp_enqueue_style(
+        'westio-child-typography',
+        get_stylesheet_directory_uri() . '/assets/css/typography.css',
+        [],
+        file_exists($typo_path) ? filemtime($typo_path) : '1.0.0'
+    );
+}, 20);
