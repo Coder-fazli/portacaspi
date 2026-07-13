@@ -88,7 +88,7 @@
     height: 36px;
     background: #0d2438;
     border-radius: 50% 50% 50% 0;
-    transform: translateX(-50%) rotate(45deg);
+    transform: translateX(-50%) rotate(-45deg);
     transition: background .25s ease;
 }
 
