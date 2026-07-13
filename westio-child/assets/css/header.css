@@ -7,6 +7,11 @@
     gap: 24px;
 }
 
+/* Remove Westio's decorative circle before top-level menu links */
+.main-navigation ul.menu > li.menu-item > a:before {
+    display: none;
+}
+
 /* Kill default list bullets on menu items */
 .site-header .main-navigation ul,
 .site-header .main-navigation li,
