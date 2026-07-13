@@ -3,12 +3,32 @@
     width: 100%;
     overflow: hidden;
     line-height: 0;
+    aspect-ratio: var(--wb-ar, 1714 / 900);
+}
+
+/* Stage keeps the image's exact aspect ratio; pins/overlay percentages
+   stay valid because they're positioned against it, not the viewport. */
+.wb-stage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    aspect-ratio: var(--wb-ar, 1714 / 900);
 }
 
 .wb-bg {
     display: block;
     width: 100%;
-    height: auto;
+    height: 100%;
+}
+
+@media (max-width: 767px) {
+    /* Fill a tall box and crop the sides, keeping buildings large (cover-crop). */
+    .wb-selector {
+        aspect-ratio: auto;
+        height: var(--wb-mobile-h, 75vh);
+    }
 }
 
 .wb-svg-overlay {
@@ -169,7 +189,8 @@
         top: auto !important;
         bottom: 16px;
         transform: translateX(-50%) !important;
-        width: calc(100% - 32px);
+        width: calc(100vw - 32px);
+        max-width: 400px;
     }
 
     .wb-card.wb-card-flip {

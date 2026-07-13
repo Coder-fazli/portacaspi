@@ -110,6 +110,21 @@ class Westio_Child_Building_Selector extends Widget_Base {
         ]);
 
         $this->end_controls_section();
+
+        $this->start_controls_section('section_mobile', [
+            'label' => esc_html__('Mobile', 'westio-child'),
+        ]);
+        $this->add_control('mobile_height', [
+            'label'       => esc_html__('Height on mobile (vh)', 'westio-child'),
+            'description' => esc_html__('On phones the image fills this height and crops the sides, keeping buildings large.', 'westio-child'),
+            'type'        => Controls_Manager::SLIDER,
+            'range'       => ['px' => ['min' => 40, 'max' => 100]],
+            'default'     => ['size' => 75],
+            'selectors'   => [
+                '{{WRAPPER}} .wb-selector' => '--wb-mobile-h: {{SIZE}}vh;',
+            ],
+        ]);
+        $this->end_controls_section();
     }
 
     private function get_svg_overlay_markup() {
@@ -137,8 +152,17 @@ class Westio_Child_Building_Selector extends Widget_Base {
 
         $bg_url      = !empty($settings['bg_image']['url']) ? $settings['bg_image']['url'] : Utils::get_placeholder_image_src();
         $svg_overlay = $this->get_svg_overlay_markup();
+
+        $ratio = '1714 / 900';
+        if (!empty($settings['bg_image']['id'])) {
+            $src = wp_get_attachment_image_src($settings['bg_image']['id'], 'full');
+            if ($src && !empty($src[1]) && !empty($src[2])) {
+                $ratio = $src[1] . ' / ' . $src[2];
+            }
+        }
         ?>
-        <div class="wb-selector">
+        <div class="wb-selector" style="--wb-ar: <?php echo esc_attr($ratio); ?>;">
+            <div class="wb-stage">
             <img class="wb-bg" src="<?php echo esc_url($bg_url); ?>" alt="">
 
             <?php if ($svg_overlay) : ?>
@@ -173,6 +197,7 @@ class Westio_Child_Building_Selector extends Widget_Base {
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
+            </div>
         </div>
         <?php
     }
