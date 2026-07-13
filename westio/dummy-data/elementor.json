@@ -1,0 +1,106 @@
+{
+    "system_colors": [
+        {
+            "_id": "primary",
+            "title": "Primary",
+            "color": "#BDAD7B"
+        },
+        {
+            "_id": "secondary",
+            "title": "Secondary",
+            "color": "#000000"
+        },
+        {
+            "_id": "text",
+            "title": "Text",
+            "color": "#555555"
+        },
+        {
+            "_id": "accent",
+            "title": "Accent",
+            "color": "#BDAD7B"
+        },
+        {
+            "_id": "border",
+            "title": "Border",
+            "color": "#DCE0E3"
+        },
+        {
+            "_id": "lighter",
+            "title": "Lighter",
+            "color": "#8C8C8C"
+        },
+        {
+            "_id": "dark",
+            "title": "Dark",
+            "color": "#000"
+        },
+        {
+            "_id": "highlight",
+            "title": "Highlight",
+            "color": "#96FE81"
+        }
+    ],
+    "custom_colors": [],
+    "system_typography": [
+        {
+            "_id": "primary",
+            "title": "Primary",
+            "typography_typography": "custom",
+            "typography_font_family": "Vend Sans",
+            "typography_font_weight": "600"
+        },
+        {
+            "_id": "secondary",
+            "title": "Secondary(Heading)",
+            "typography_typography": "custom",
+            "typography_font_family": "Space Grotesk",
+            "typography_font_weight": "400"
+        },
+        {
+            "_id": "text",
+            "title": "Text",
+            "typography_typography": "custom",
+            "typography_font_family": "Vend Sans",
+            "typography_font_weight": "400"
+        },
+        {
+            "_id": "accent",
+            "title": "Accent",
+            "typography_typography": "custom",
+            "typography_font_family": "Vend Sans",
+            "typography_font_weight": "600"
+        }
+    ],
+    "custom_typography": [],
+    "default_generic_fonts": "Sans-serif",
+    "site_name": "Westio",
+    "site_description": "Real Estate & Apartment Landing Page WordPress Theme",
+    "page_title_selector": "h1.entry-title",
+    "activeItemIndex": 1,
+    "active_breakpoints": [
+        "viewport_mobile",
+        "viewport_mobile_extra",
+        "viewport_tablet",
+        "viewport_tablet_extra",
+        "viewport_laptop"
+    ],
+    "viewport_md": 768,
+    "viewport_lg": 1025,
+    "container_width": {
+        "unit": "px",
+        "size": 1300,
+        "sizes": []
+    },
+    "space_between_widgets": {
+        "column": "20",
+        "row": "20",
+        "isLinked": true,
+        "unit": "px",
+        "size": 0,
+        "sizes": []
+    },
+    "body_background_background": "classic",
+    "body_background_color": "#F4F0E9",
+    "viewport_laptop": 1440
+}

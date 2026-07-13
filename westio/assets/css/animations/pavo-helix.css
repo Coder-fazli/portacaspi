@@ -1,0 +1,69 @@
+.pavo-helix {
+    animation-name: pavoHelix;
+    -moz-animation-name: pavoHelix;
+    -webkit-animation-name: pavoHelix;
+}
+@-webkit-keyframes pavoHelix {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+}
+@-moz-keyframes pavoHelix {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+}
+@-ms-keyframes pavoHelix {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+}
+@keyframes pavoHelix {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateY(-180deg);
+        transform: rotateY(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+}

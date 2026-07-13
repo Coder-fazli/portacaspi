@@ -1,0 +1,20 @@
+#header-footer-elementor-rating, .wpc-notice {
+    display: none
+}
+
+#product-meta-preview {
+    width: 80px
+}
+
+.deal-sold-counts {
+    clear: both;
+    display: block
+}
+
+#westio_options.woocommerce_options_panel textarea {
+    height: auto
+}
+
+.accordion-section-title button.accordion-trigger {
+    height: auto;
+}

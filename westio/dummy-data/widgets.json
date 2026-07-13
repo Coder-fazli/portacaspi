@@ -1,0 +1,18 @@
+{
+    "sidebar-blog": {
+        "search-3": {
+            "title": "Search"
+        },
+        "categories-3": [],
+        "recent-posts-3": {
+            "title": "",
+            "number": 3,
+            "show_date": true
+        },
+        "tag_cloud-3": {
+            "title": "Popular tags",
+            "count": 0,
+            "taxonomy": "post_tag"
+        }
+    }
+}

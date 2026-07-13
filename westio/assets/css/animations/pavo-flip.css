@@ -1,0 +1,70 @@
+.pavo-flip {
+    animation-name: pavoFlip;
+    -moz-animation-name: pavoFlip;
+    -webkit-animation-name: pavoFlip;
+}
+
+@-webkit-keyframes pavoFlip {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateX(-180deg);
+        transform: rotateX(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+@-moz-keyframes pavoFlip {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateX(-180deg);
+        transform: rotateX(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+@-ms-keyframes pavoFlip {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateX(-180deg);
+        transform: rotateX(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+@keyframes pavoFlip {
+    from {
+        opacity: 0;
+        -webkit-perspective: 1300px;
+        perspective: 1300px;
+        -webkit-transform: rotateX(-180deg);
+        transform: rotateX(-180deg);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+    }
+    to {
+        -webkit-transform: rotateX(0deg);
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
