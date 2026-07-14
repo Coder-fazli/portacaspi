@@ -49,7 +49,65 @@ add_action('wp_enqueue_scripts', function () {
         [],
         file_exists($header_path) ? filemtime($header_path) : '1.0.0'
     );
+
+    $footer_path = get_stylesheet_directory() . '/assets/css/footer.css';
+    wp_enqueue_style(
+        'westio-child-footer',
+        get_stylesheet_directory_uri() . '/assets/css/footer.css',
+        [],
+        file_exists($footer_path) ? filemtime($footer_path) : '1.0.0'
+    );
 }, 20);
+
+// Footer menu locations for the three "Explore" columns.
+add_action('after_setup_theme', function () {
+    register_nav_menus([
+        'footer-1' => __('Footer Column 1', 'westio-child'),
+        'footer-2' => __('Footer Column 2', 'westio-child'),
+        'footer-3' => __('Footer Column 3', 'westio-child'),
+    ]);
+});
+
+// Customizer: Footer section (address, copyright, watermark, social links).
+add_action('customize_register', function ($wp_customize) {
+    $wp_customize->add_section('wc_footer', [
+        'title'    => __('Footer', 'westio-child'),
+        'priority' => 160,
+    ]);
+
+    // Parallax background image (media picker).
+    $wp_customize->add_setting('wc_footer_bg_image', [
+        'default'           => '',
+        'sanitize_callback' => 'esc_url_raw',
+    ]);
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'wc_footer_bg_image', [
+        'label'   => __('Parallax background image', 'westio-child'),
+        'section' => 'wc_footer',
+    ]));
+
+    $fields = [
+        'wc_footer_address'   => [__('Address', 'westio-child'), "2972 Westheimer Rd.\nSanta Ana, Illinois 85486", 'textarea'],
+        'wc_footer_copyright' => [__('Copyright', 'westio-child'), '© ' . date('Y') . ' Portacaspia', 'text'],
+        'wc_footer_watermark' => [__('Watermark text', 'westio-child'), get_bloginfo('name'), 'text'],
+        'wc_footer_facebook'  => [__('Facebook URL', 'westio-child'), '', 'url'],
+        'wc_footer_twitter'   => [__('Twitter URL', 'westio-child'), '', 'url'],
+        'wc_footer_instagram' => [__('Instagram URL', 'westio-child'), '', 'url'],
+        'wc_footer_youtube'   => [__('Youtube URL', 'westio-child'), '', 'url'],
+    ];
+
+    foreach ($fields as $id => $data) {
+        list($label, $default, $type) = $data;
+        $wp_customize->add_setting($id, [
+            'default'           => $default,
+            'sanitize_callback' => ($type === 'url') ? 'esc_url_raw' : ($type === 'textarea' ? 'sanitize_textarea_field' : 'sanitize_text_field'),
+        ]);
+        $wp_customize->add_control($id, [
+            'label'   => $label,
+            'section' => 'wc_footer',
+            'type'    => ($type === 'textarea') ? 'textarea' : 'text',
+        ]);
+    }
+});
 
 // Make custom header strings translatable in Polylang (Languages → Translations).
 add_action('init', function () {

@@ -1,0 +1,190 @@
+/* Full-width footer wrapper — holds the parallax background image. */
+.wc-footer {
+    position: relative;
+    background-color: #0d2438;
+    background-size: cover;
+    background-position: center;
+    padding: 120px 40px 60px;
+}
+
+/* Parallax: background stays fixed while the page scrolls over it. */
+.wc-footer.has-bg {
+    background-attachment: fixed;
+}
+
+/* Contained, floating white card (not full width). */
+.wc-footer-card {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 28px;
+    padding: 70px 60px 40px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .25);
+}
+
+.wc-footer-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Top area */
+.wc-footer-top {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 2.4fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #ececec;
+}
+
+.wc-footer-brand img {
+    max-width: 160px;
+    height: auto;
+}
+
+.wc-footer-sitename {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0d2438;
+    text-decoration: none;
+}
+
+.wc-footer-heading {
+    font-size: 13px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #9a9a9a;
+    margin: 0 0 24px;
+    font-weight: 600;
+}
+
+.wc-footer-address p {
+    font-size: 22px;
+    line-height: 1.5;
+    margin: 0;
+    color: #0d2438;
+}
+
+.wc-footer-menus {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.wc-footer-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.wc-footer-menu li {
+    margin: 0 0 16px;
+}
+
+.wc-footer-menu li a {
+    font-size: 18px;
+    color: #0d2438;
+    text-decoration: none;
+    transition: color .2s ease;
+}
+
+.wc-footer-menu li a:hover {
+    color: var(--e-global-color-primary, #BDAD7B);
+}
+
+/* Bottom bar */
+.wc-footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 32px;
+}
+
+.wc-footer-copyright {
+    font-size: 15px;
+    color: #6a6a6a;
+}
+
+.wc-footer-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.wc-social-link {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: #f4f2ee;
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: #6a6a6a;
+    text-decoration: none;
+    transition: background .2s ease, color .2s ease;
+}
+
+.wc-social-link:hover {
+    background: var(--e-global-color-primary, #BDAD7B);
+    color: #fff;
+}
+
+/* Watermark behind the content, inside the card */
+.wc-footer-watermark {
+    position: absolute;
+    left: 40px;
+    bottom: -18px;
+    z-index: 0;
+    font-size: 18vw;
+    font-weight: 800;
+    line-height: .8;
+    color: #0d2438;
+    opacity: .04;
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+    .wc-footer {
+        padding: 80px 20px 40px;
+        /* fixed attachment is unreliable on mobile — fall back to scroll */
+        background-attachment: scroll;
+    }
+    .wc-footer-card {
+        padding: 50px 32px 32px;
+    }
+    .wc-footer-top {
+        grid-template-columns: 1fr 1fr;
+    }
+    .wc-footer-explore {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .wc-footer-card {
+        padding: 40px 24px 28px;
+        border-radius: 20px;
+    }
+    .wc-footer-top {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .wc-footer-menus {
+        grid-template-columns: 1fr 1fr;
+    }
+    .wc-footer-address p {
+        font-size: 18px;
+    }
+    .wc-footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .wc-footer-watermark {
+        font-size: 26vw;
+    }
+}
