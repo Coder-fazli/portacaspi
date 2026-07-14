@@ -3,7 +3,23 @@
     width: 100%;
     overflow: hidden;
     line-height: 0;
-    aspect-ratio: var(--wb-ar, 1714 / 900);
+    /* Cropped box on desktop: the wide panorama overflows the sides and is
+       clipped, so the centred towers read larger/closer than the raw image. */
+    aspect-ratio: var(--wb-desktop-ar, 1714 / 1150);
+}
+
+/* Gradient overlay for depth — subtle darkening top & bottom. */
+.wb-shade {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg,
+            rgba(8, 28, 38, .38) 0%,
+            rgba(8, 28, 38, .05) 30%,
+            rgba(8, 28, 38, 0) 55%,
+            rgba(8, 28, 38, .30) 100%);
 }
 
 /* Stage keeps the image's exact aspect ratio; pins/overlay percentages

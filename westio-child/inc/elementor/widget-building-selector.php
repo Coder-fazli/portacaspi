@@ -169,6 +169,8 @@ class Westio_Child_Building_Selector extends Widget_Base {
                 <div class="wb-svg-overlay"><?php echo $svg_overlay; ?></div>
             <?php endif; ?>
 
+            <div class="wb-shade" aria-hidden="true"></div>
+
             <?php foreach ($buildings as $i => $b) :
                 $x = isset($b['pos_x']['size']) ? $b['pos_x']['size'] : 50;
                 $y = isset($b['pos_y']['size']) ? $b['pos_y']['size'] : 50;
