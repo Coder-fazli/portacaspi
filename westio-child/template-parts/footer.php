@@ -1,43 +1,29 @@
 <?php
 /**
  * Custom footer (child theme override of template-parts/footer.php).
- * Recreates the Westio demo footer: a contained white rounded card floating
- * over a full-width parallax background image, with logo + address, three
- * "Explore" menu columns, watermark, copyright and social links.
- *
- * Editable via Appearance → Menus (footer columns) and Customizer → Footer.
- * If no menu is assigned to a column, the demo default links are shown.
+ * A contained white rounded card floating over a full-width parallax
+ * background image. All text/links come from the Footer admin page
+ * (per-language), via wcf_get_lang_data() / wcf_get_bg_image().
  */
 
-$wc_bg_image  = get_theme_mod('wc_footer_bg_image', '');
-$wc_address   = get_theme_mod('wc_footer_address', "2972 Westheimer Rd.\nSanta Ana, Illinois 85486");
-$wc_copyright = get_theme_mod('wc_footer_copyright', '© ' . date('Y') . ' Portacaspia');
-$wc_watermark = get_theme_mod('wc_footer_watermark', get_bloginfo('name'));
+$d        = function_exists('wcf_get_lang_data') ? wcf_get_lang_data() : [];
+$bg_image = function_exists('wcf_get_bg_image') ? wcf_get_bg_image() : '';
 
-$wc_socials = [
-    'facebook'  => ['label' => 'Facebook',  'url' => get_theme_mod('wc_footer_facebook', '#')],
-    'twitter'   => ['label' => 'Twitter',   'url' => get_theme_mod('wc_footer_twitter', '#')],
-    'instagram' => ['label' => 'Instagram', 'url' => get_theme_mod('wc_footer_instagram', '#')],
-    'youtube'   => ['label' => 'Youtube',   'url' => get_theme_mod('wc_footer_youtube', '')],
-];
+$address_label = $d['address_label'] ?? 'ADDRESS';
+$address_text  = $d['address_text'] ?? '';
+$explore_label = $d['explore_label'] ?? 'EXPLORE';
+$columns       = !empty($d['columns']) && is_array($d['columns']) ? $d['columns'] : [];
+$copyright     = $d['copyright'] ?? '';
+$socials       = !empty($d['socials']) && is_array($d['socials']) ? $d['socials'] : [];
+$watermark     = get_bloginfo('name');
 
-// Default "Explore" links shown when a column has no assigned menu.
-$wc_default_cols = [
-    'footer-1' => ['Architecture' => '#', 'Amenities' => '#', 'Residences' => '#'],
-    'footer-2' => ['Neighborhood' => '#', 'Availability' => '#', 'Gallery' => '#'],
-    'footer-3' => ['About Us' => '#', 'Blog' => '#', 'Contact' => '#'],
-];
-
-$wc_explore_label = function_exists('pll__') ? pll__('EXPLORE') : 'EXPLORE';
-$wc_address_label = function_exists('pll__') ? pll__('ADDRESS') : 'ADDRESS';
-
-$wc_footer_style = $wc_bg_image ? ' style="background-image:url(' . esc_url($wc_bg_image) . ');"' : '';
+$footer_style = $bg_image ? ' style="background-image:url(' . esc_url($bg_image) . ');"' : '';
 ?>
-<footer id="colophon" class="site-footer wc-footer<?php echo $wc_bg_image ? ' has-bg' : ''; ?>" role="contentinfo"<?php echo $wc_footer_style; ?>>
+<footer id="colophon" class="site-footer wc-footer<?php echo $bg_image ? ' has-bg' : ''; ?>" role="contentinfo"<?php echo $footer_style; ?>>
     <div class="wc-footer-card">
 
-        <?php if (!empty($wc_watermark)) : ?>
-            <div class="wc-footer-watermark" aria-hidden="true"><?php echo esc_html($wc_watermark); ?></div>
+        <?php if (!empty($watermark)) : ?>
+            <div class="wc-footer-watermark" aria-hidden="true"><?php echo esc_html($watermark); ?></div>
         <?php endif; ?>
 
         <div class="wc-footer-content">
@@ -54,32 +40,26 @@ $wc_footer_style = $wc_bg_image ? ' style="background-image:url(' . esc_url($wc_
                 </div>
 
                 <div class="wc-footer-address">
-                    <h4 class="wc-footer-heading"><?php echo esc_html($wc_address_label); ?></h4>
-                    <p><?php echo nl2br(esc_html($wc_address)); ?></p>
+                    <?php if ($address_label) : ?>
+                        <h4 class="wc-footer-heading"><?php echo esc_html($address_label); ?></h4>
+                    <?php endif; ?>
+                    <p><?php echo nl2br(esc_html($address_text)); ?></p>
                 </div>
 
                 <div class="wc-footer-explore">
-                    <h4 class="wc-footer-heading"><?php echo esc_html($wc_explore_label); ?></h4>
+                    <?php if ($explore_label) : ?>
+                        <h4 class="wc-footer-heading"><?php echo esc_html($explore_label); ?></h4>
+                    <?php endif; ?>
                     <div class="wc-footer-menus">
-                        <?php foreach ($wc_default_cols as $loc => $defaults) : ?>
+                        <?php foreach ($columns as $col) : ?>
                             <div class="wc-footer-menu-col">
-                                <?php if (has_nav_menu($loc)) : ?>
-                                    <?php
-                                    wp_nav_menu([
-                                        'theme_location' => $loc,
-                                        'container'      => false,
-                                        'menu_class'     => 'wc-footer-menu',
-                                        'depth'          => 1,
-                                        'fallback_cb'    => '__return_empty_string',
-                                    ]);
-                                    ?>
-                                <?php else : ?>
-                                    <ul class="wc-footer-menu">
-                                        <?php foreach ($defaults as $label => $url) : ?>
-                                            <li><a href="<?php echo esc_url($url); ?>"><?php echo esc_html($label); ?></a></li>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                <?php endif; ?>
+                                <ul class="wc-footer-menu">
+                                    <?php foreach ((array) $col as $item) : ?>
+                                        <?php if (!empty($item['label'])) : ?>
+                                            <li><a href="<?php echo esc_url($item['url'] ?: '#'); ?>"><?php echo esc_html($item['label']); ?></a></li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </ul>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -87,11 +67,11 @@ $wc_footer_style = $wc_bg_image ? ' style="background-image:url(' . esc_url($wc_
             </div>
 
             <div class="wc-footer-bottom">
-                <div class="wc-footer-copyright"><?php echo wp_kses_post($wc_copyright); ?></div>
+                <div class="wc-footer-copyright"><?php echo wp_kses_post($copyright); ?></div>
                 <div class="wc-footer-social">
-                    <?php foreach ($wc_socials as $key => $s) : ?>
-                        <?php if (!empty($s['url'])) : ?>
-                            <a class="wc-social-link wc-social-<?php echo esc_attr($key); ?>" href="<?php echo esc_url($s['url']); ?>" target="_blank" rel="noopener"><?php echo esc_html(strtoupper($s['label'])); ?></a>
+                    <?php foreach ($socials as $s) : ?>
+                        <?php if (!empty($s['label'])) : ?>
+                            <a class="wc-social-link" href="<?php echo esc_url($s['url'] ?: '#'); ?>" target="_blank" rel="noopener"><?php echo esc_html(strtoupper($s['label'])); ?></a>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>

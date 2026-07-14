@@ -1,0 +1,54 @@
+.wcf-columns {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.wcf-column {
+    flex: 1;
+    min-width: 240px;
+    background: #fff;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+    padding: 14px;
+}
+
+.wcf-column h4 {
+    margin: 0 0 12px;
+}
+
+.wcf-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.wcf-item input[type="text"] {
+    flex: 1;
+    min-width: 80px;
+}
+
+.wcf-item .wcf-remove-row {
+    color: #b32d2e;
+    line-height: 1;
+    padding: 0 10px;
+}
+
+.wcf-socials {
+    max-width: 640px;
+    margin-bottom: 10px;
+}
+
+.wcf-lang-panel {
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-top: 0;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.wcf-tabs {
+    margin-bottom: 0;
+}
