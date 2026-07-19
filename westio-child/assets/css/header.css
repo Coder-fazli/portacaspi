@@ -12,6 +12,13 @@
     display: none;
 }
 
+/* Header menu items: Roboto, lighter weight (matches phone/CTA feel) */
+.site-header .main-navigation ul.menu > li.menu-item > a,
+.site-header .main-navigation ul.menu > li.menu-item > a .menu-title {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+}
+
 /* Kill default list bullets on menu items */
 .site-header .main-navigation ul,
 .site-header .main-navigation li,

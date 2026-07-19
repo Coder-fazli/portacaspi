@@ -29,7 +29,7 @@ add_action('elementor/widgets/register', function ($widgets_manager) {
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style(
         'westio-child-google-fonts',
-        'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..800;1,300..800&display=swap',
+        'https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300..800;1,300..800&family=Roboto:wght@300;400;500;600&display=swap',
         [],
         null
     );
