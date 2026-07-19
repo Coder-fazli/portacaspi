@@ -62,6 +62,25 @@ add_action('wp_enqueue_scripts', function () {
 // Footer settings admin page (per-language content).
 require_once get_stylesheet_directory() . '/inc/footer-settings.php';
 
+// Override the parent's button-hover script with a Unicode-safe capitalization
+// fix, without editing parent theme files. Same handle + dependencies.
+add_action('wp_enqueue_scripts', function () {
+    if (!wp_script_is('westio-button-hover', 'registered')) {
+        return;
+    }
+    wp_deregister_script('westio-button-hover');
+
+    $path = get_stylesheet_directory() . '/assets/js/frontend/button-hover.js';
+    wp_register_script(
+        'westio-button-hover',
+        get_stylesheet_directory_uri() . '/assets/js/frontend/button-hover.js',
+        ['jquery', 'westio-gsap', 'westio-splittext'],
+        file_exists($path) ? filemtime($path) : '1.0.0',
+        true
+    );
+    wp_enqueue_script('westio-button-hover');
+}, 100);
+
 // Make custom header strings translatable in Polylang (Languages → Translations).
 add_action('init', function () {
     if (function_exists('pll_register_string')) {
