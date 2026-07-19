@@ -32,6 +32,9 @@ function wcf_languages() {
 
 function wcf_lang_defaults() {
     return [
+        'header_phone'     => '+994 12 345 67 89',
+        'header_cta_label' => 'Əlaqə',
+        'header_cta_url'   => '/elaqe/',
         'address_label' => 'ADDRESS',
         'address_text'  => "2972 Westheimer Rd.\nSanta Ana, Illinois 85486",
         'explore_label' => 'EXPLORE',
@@ -88,8 +91,8 @@ class WC_Footer_Settings {
 
     public function menu() {
         add_menu_page(
-            __('Footer', 'westio-child'),
-            __('Footer', 'westio-child'),
+            __('Header & Footer', 'westio-child'),
+            __('Header & Footer', 'westio-child'),
             'manage_options',
             'wc-footer',
             [$this, 'page'],
@@ -110,6 +113,9 @@ class WC_Footer_Settings {
             foreach ($input['langs'] as $slug => $data) {
                 $slug = sanitize_key($slug);
                 $lang = [
+                    'header_phone'     => sanitize_text_field($data['header_phone'] ?? ''),
+                    'header_cta_label' => sanitize_text_field($data['header_cta_label'] ?? ''),
+                    'header_cta_url'   => $this->clean_url($data['header_cta_url'] ?? ''),
                     'address_label' => sanitize_text_field($data['address_label'] ?? ''),
                     'address_text'  => sanitize_textarea_field($data['address_text'] ?? ''),
                     'explore_label' => sanitize_text_field($data['explore_label'] ?? ''),
@@ -183,7 +189,7 @@ class WC_Footer_Settings {
         $langs    = wcf_languages();
         ?>
         <div class="wrap wcf-wrap">
-            <h1><?php esc_html_e('Footer', 'westio-child'); ?></h1>
+            <h1><?php esc_html_e('Header & Footer', 'westio-child'); ?></h1>
             <form method="post" action="options.php">
                 <?php settings_fields('wc_footer_group'); ?>
 
@@ -233,6 +239,23 @@ class WC_Footer_Settings {
     private function lang_fields($slug, $data) {
         $base = WCF_OPTION . '[langs][' . $slug . ']';
         ?>
+        <h3><?php esc_html_e('Header', 'westio-child'); ?></h3>
+        <table class="form-table" role="presentation">
+            <tr>
+                <th scope="row"><?php esc_html_e('Phone', 'westio-child'); ?></th>
+                <td><input type="text" class="regular-text" name="<?php echo esc_attr($base); ?>[header_phone]" value="<?php echo esc_attr($data['header_phone']); ?>"></td>
+            </tr>
+            <tr>
+                <th scope="row"><?php esc_html_e('Contact button label', 'westio-child'); ?></th>
+                <td><input type="text" class="regular-text" name="<?php echo esc_attr($base); ?>[header_cta_label]" value="<?php echo esc_attr($data['header_cta_label']); ?>"></td>
+            </tr>
+            <tr>
+                <th scope="row"><?php esc_html_e('Contact button link', 'westio-child'); ?></th>
+                <td><input type="text" class="regular-text" name="<?php echo esc_attr($base); ?>[header_cta_url]" value="<?php echo esc_attr($data['header_cta_url']); ?>"></td>
+            </tr>
+        </table>
+
+        <h3><?php esc_html_e('Footer', 'westio-child'); ?></h3>
         <table class="form-table" role="presentation">
             <tr>
                 <th scope="row"><?php esc_html_e('Address heading', 'westio-child'); ?></th>

@@ -81,11 +81,5 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('westio-button-hover');
 }, 100);
 
-// Make custom header strings translatable in Polylang (Languages → Translations).
-add_action('init', function () {
-    if (function_exists('pll_register_string')) {
-        pll_register_string('header-phone', get_theme_mod('wc_header_phone', '+994 12 345 67 89'), 'westio-child');
-        pll_register_string('header-cta-label', 'Əlaqə', 'westio-child');
-        pll_register_string('header-cta-url', '/elaqe/', 'westio-child');
-    }
-});
+// Header CTA / phone are now edited per-language in the Header & Footer
+// admin page (see inc/footer-settings.php), no Polylang string scan needed.

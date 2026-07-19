@@ -7,9 +7,10 @@
  * Menus assigned per language in Appearance → Menus swap automatically.
  */
 
-$wc_phone     = function_exists('pll__') ? pll__(get_theme_mod('wc_header_phone', '+994 12 345 67 89')) : get_theme_mod('wc_header_phone', '+994 12 345 67 89');
-$wc_cta_label = function_exists('pll__') ? pll__('Əlaqə') : 'Əlaqə';
-$wc_cta_url   = function_exists('pll__') ? pll__('/elaqe/') : '/elaqe/';
+$wc_hd        = function_exists('wcf_get_lang_data') ? wcf_get_lang_data() : [];
+$wc_phone     = $wc_hd['header_phone'] ?? '+994 12 345 67 89';
+$wc_cta_label = $wc_hd['header_cta_label'] ?? 'Əlaqə';
+$wc_cta_url   = $wc_hd['header_cta_url'] ?? '/elaqe/';
 ?>
 <header id="masthead" class="site-header header-1 wc-header" role="banner">
     <div class="header-container">
