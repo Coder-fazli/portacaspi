@@ -78,6 +78,11 @@ function wcf_get_bg_image() {
     return !empty($opt['bg_image']) ? $opt['bg_image'] : '';
 }
 
+function wcf_get_header_logo_width() {
+    $opt = get_option(WCF_OPTION, []);
+    return !empty($opt['header_logo_width']) ? (int) $opt['header_logo_width'] : 126;
+}
+
 /**
  * Returns inline SVG markup for a known social network, matched against the
  * admin-entered label (e.g. "Facebook", "Instagram DM"). Returns '' if the
@@ -129,8 +134,11 @@ class WC_Footer_Settings {
     }
 
     public function sanitize($input) {
-        $clean = ['bg_image' => '', 'langs' => []];
+        $clean = ['bg_image' => '', 'header_logo_width' => 126, 'langs' => []];
         $clean['bg_image'] = isset($input['bg_image']) ? esc_url_raw($input['bg_image']) : '';
+        $clean['header_logo_width'] = isset($input['header_logo_width']) && (int) $input['header_logo_width'] > 0
+            ? (int) $input['header_logo_width']
+            : 126;
 
         if (!empty($input['langs']) && is_array($input['langs'])) {
             foreach ($input['langs'] as $slug => $data) {
@@ -207,9 +215,10 @@ class WC_Footer_Settings {
     }
 
     public function page() {
-        $opt      = get_option(WCF_OPTION, []);
-        $bg_image = !empty($opt['bg_image']) ? $opt['bg_image'] : '';
-        $langs    = wcf_languages();
+        $opt         = get_option(WCF_OPTION, []);
+        $bg_image    = !empty($opt['bg_image']) ? $opt['bg_image'] : '';
+        $logo_width  = wcf_get_header_logo_width();
+        $langs       = wcf_languages();
         ?>
         <div class="wrap wcf-wrap">
             <h1><?php esc_html_e('Header & Footer', 'westio-child'); ?></h1>
@@ -227,6 +236,13 @@ class WC_Footer_Settings {
                                 <button type="button" class="button wcf-media-remove" style="<?php echo $bg_image ? '' : 'display:none;'; ?>"><?php esc_html_e('Remove', 'westio-child'); ?></button>
                                 <p class="description"><?php esc_html_e('Shared across all languages.', 'westio-child'); ?></p>
                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e('Header logo width (px)', 'westio-child'); ?></th>
+                        <td>
+                            <input type="number" min="20" max="600" class="small-text" name="<?php echo WCF_OPTION; ?>[header_logo_width]" value="<?php echo esc_attr($logo_width); ?>">
+                            <p class="description"><?php esc_html_e('Width of the logo in the site header, in pixels.', 'westio-child'); ?></p>
                         </td>
                     </tr>
                 </table>

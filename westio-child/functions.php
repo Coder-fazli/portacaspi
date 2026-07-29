@@ -50,6 +50,11 @@ add_action('wp_enqueue_scripts', function () {
         file_exists($header_path) ? filemtime($header_path) : '1.0.0'
     );
 
+    if (function_exists('wcf_get_header_logo_width')) {
+        $logo_width = wcf_get_header_logo_width();
+        wp_add_inline_style('westio-child-header', ".header-1 .site-branding img { width: {$logo_width}px; }");
+    }
+
     $footer_path = get_stylesheet_directory() . '/assets/css/footer.css';
     wp_enqueue_style(
         'westio-child-footer',
