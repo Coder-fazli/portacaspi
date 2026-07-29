@@ -38,6 +38,13 @@
     border-bottom: 1px solid #ececec;
 }
 
+.wc-footer-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+}
+
 .wc-footer-brand img {
     max-width: 160px;
     height: auto;
@@ -68,7 +75,7 @@
 
 .wc-footer-menus {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
 }
 
@@ -108,6 +115,11 @@
     color: #6a6a6a;
 }
 
+.wc-footer-credit {
+    font-size: 15px;
+    color: #6a6a6a;
+}
+
 .wc-footer-social {
     display: flex;
     flex-wrap: wrap;
@@ -129,22 +141,6 @@
 .wc-social-link:hover {
     background: var(--e-global-color-primary, #BDAD7B);
     color: #fff;
-}
-
-/* Watermark behind the content, inside the card */
-.wc-footer-watermark {
-    position: absolute;
-    left: 40px;
-    bottom: -18px;
-    z-index: 0;
-    font-size: 18vw;
-    font-weight: 800;
-    line-height: .8;
-    color: #0d2438;
-    opacity: .04;
-    pointer-events: none;
-    user-select: none;
-    white-space: nowrap;
 }
 
 /* Responsive */
@@ -183,8 +179,5 @@
     .wc-footer-bottom {
         flex-direction: column;
         align-items: flex-start;
-    }
-    .wc-footer-watermark {
-        font-size: 26vw;
     }
 }

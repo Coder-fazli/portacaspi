@@ -15,16 +15,11 @@ $explore_label = $d['explore_label'] ?? 'EXPLORE';
 $columns       = !empty($d['columns']) && is_array($d['columns']) ? $d['columns'] : [];
 $copyright     = $d['copyright'] ?? '';
 $socials       = !empty($d['socials']) && is_array($d['socials']) ? $d['socials'] : [];
-$watermark     = get_bloginfo('name');
 
 $footer_style = $bg_image ? ' style="background-image:url(' . esc_url($bg_image) . ');"' : '';
 ?>
 <footer id="colophon" class="site-footer wc-footer<?php echo $bg_image ? ' has-bg' : ''; ?>" role="contentinfo"<?php echo $footer_style; ?>>
     <div class="wc-footer-card">
-
-        <?php if (!empty($watermark)) : ?>
-            <div class="wc-footer-watermark" aria-hidden="true"><?php echo esc_html($watermark); ?></div>
-        <?php endif; ?>
 
         <div class="wc-footer-content">
 
@@ -37,6 +32,13 @@ $footer_style = $bg_image ? ' style="background-image:url(' . esc_url($bg_image)
                         echo '<a class="wc-footer-sitename" href="' . esc_url(home_url('/')) . '">' . esc_html(get_bloginfo('name')) . '</a>';
                     }
                     ?>
+                    <div class="wc-footer-social">
+                        <?php foreach ($socials as $s) : ?>
+                            <?php if (!empty($s['label'])) : ?>
+                                <a class="wc-social-link" href="<?php echo esc_url($s['url'] ?: '#'); ?>" target="_blank" rel="noopener"><?php echo esc_html(mb_strtoupper($s['label'], 'UTF-8')); ?></a>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
 
                 <div class="wc-footer-address">
@@ -68,13 +70,7 @@ $footer_style = $bg_image ? ' style="background-image:url(' . esc_url($bg_image)
 
             <div class="wc-footer-bottom">
                 <div class="wc-footer-copyright"><?php echo wp_kses_post($copyright); ?></div>
-                <div class="wc-footer-social">
-                    <?php foreach ($socials as $s) : ?>
-                        <?php if (!empty($s['label'])) : ?>
-                            <a class="wc-social-link" href="<?php echo esc_url($s['url'] ?: '#'); ?>" target="_blank" rel="noopener"><?php echo esc_html(strtoupper($s['label'])); ?></a>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </div>
+                <div class="wc-footer-credit">Created by Ondigital</div>
             </div>
 
         </div>

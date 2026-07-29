@@ -41,7 +41,6 @@ function wcf_lang_defaults() {
         'columns'       => [
             [['label' => 'Architecture', 'url' => '#'], ['label' => 'Amenities', 'url' => '#'], ['label' => 'Residences', 'url' => '#']],
             [['label' => 'Neighborhood', 'url' => '#'], ['label' => 'Availability', 'url' => '#'], ['label' => 'Gallery', 'url' => '#']],
-            [['label' => 'About Us', 'url' => '#'], ['label' => 'Blog', 'url' => '#'], ['label' => 'Contact', 'url' => '#']],
         ],
         'copyright'     => '© ' . date('Y') . ' Portacaspia',
         'socials'       => [
@@ -273,7 +272,7 @@ class WC_Footer_Settings {
 
         <h3><?php esc_html_e('Link columns', 'westio-child'); ?></h3>
         <div class="wcf-columns">
-            <?php for ($c = 0; $c < 3; $c++) :
+            <?php for ($c = 0; $c < 2; $c++) :
                 $items = isset($data['columns'][$c]) && is_array($data['columns'][$c]) ? $data['columns'][$c] : [];
                 ?>
                 <div class="wcf-column">
