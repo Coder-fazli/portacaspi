@@ -35,35 +35,44 @@ $footer_style = $bg_image ? ' style="background-image:url(' . esc_url($bg_image)
                     <div class="wc-footer-social">
                         <?php foreach ($socials as $s) : ?>
                             <?php if (!empty($s['label'])) : ?>
-                                <a class="wc-social-link" href="<?php echo esc_url($s['url'] ?: '#'); ?>" target="_blank" rel="noopener"><?php echo esc_html(mb_strtoupper($s['label'], 'UTF-8')); ?></a>
+                                <?php $icon = function_exists('wcf_social_icon_svg') ? wcf_social_icon_svg($s['label']) : ''; ?>
+                                <a class="wc-social-link" href="<?php echo esc_url($s['url'] ?: '#'); ?>" target="_blank" rel="noopener" aria-label="<?php echo esc_attr($s['label']); ?>">
+                                    <?php if ($icon) : ?>
+                                        <?php echo $icon; ?>
+                                    <?php else : ?>
+                                        <span class="wc-social-fallback"><?php echo esc_html(mb_strtoupper(mb_substr($s['label'], 0, 1, 'UTF-8'), 'UTF-8')); ?></span>
+                                    <?php endif; ?>
+                                </a>
                             <?php endif; ?>
                         <?php endforeach; ?>
                     </div>
                 </div>
 
-                <div class="wc-footer-address">
-                    <?php if ($address_label) : ?>
-                        <h4 class="wc-footer-heading"><?php echo esc_html($address_label); ?></h4>
-                    <?php endif; ?>
-                    <p><?php echo nl2br(esc_html($address_text)); ?></p>
-                </div>
+                <div class="wc-footer-right">
+                    <div class="wc-footer-address">
+                        <?php if ($address_label) : ?>
+                            <h4 class="wc-footer-heading"><?php echo esc_html($address_label); ?></h4>
+                        <?php endif; ?>
+                        <p><?php echo nl2br(esc_html($address_text)); ?></p>
+                    </div>
 
-                <div class="wc-footer-explore">
-                    <?php if ($explore_label) : ?>
-                        <h4 class="wc-footer-heading"><?php echo esc_html($explore_label); ?></h4>
-                    <?php endif; ?>
-                    <div class="wc-footer-menus">
-                        <?php foreach ($columns as $col) : ?>
-                            <div class="wc-footer-menu-col">
-                                <ul class="wc-footer-menu">
-                                    <?php foreach ((array) $col as $item) : ?>
-                                        <?php if (!empty($item['label'])) : ?>
-                                            <li><a href="<?php echo esc_url($item['url'] ?: '#'); ?>"><?php echo esc_html($item['label']); ?></a></li>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-                        <?php endforeach; ?>
+                    <div class="wc-footer-explore">
+                        <?php if ($explore_label) : ?>
+                            <h4 class="wc-footer-heading"><?php echo esc_html($explore_label); ?></h4>
+                        <?php endif; ?>
+                        <div class="wc-footer-menus">
+                            <?php foreach ($columns as $col) : ?>
+                                <div class="wc-footer-menu-col">
+                                    <ul class="wc-footer-menu">
+                                        <?php foreach ((array) $col as $item) : ?>
+                                            <?php if (!empty($item['label'])) : ?>
+                                                <li><a href="<?php echo esc_url($item['url'] ?: '#'); ?>"><?php echo esc_html($item['label']); ?></a></li>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>

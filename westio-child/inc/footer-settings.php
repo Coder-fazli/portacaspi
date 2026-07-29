@@ -78,6 +78,30 @@ function wcf_get_bg_image() {
     return !empty($opt['bg_image']) ? $opt['bg_image'] : '';
 }
 
+/**
+ * Returns inline SVG markup for a known social network, matched against the
+ * admin-entered label (e.g. "Facebook", "Instagram DM"). Returns '' if the
+ * label doesn't match a known network, so callers can fall back to a letter.
+ */
+function wcf_social_icon_svg($label) {
+    $key = strtolower(trim($label));
+    $icons = [
+        'facebook' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.5 9.95v-7.04H7.9V12h2.6V9.8c0-2.56 1.53-3.97 3.87-3.97 1.12 0 2.3.2 2.3.2v2.5h-1.3c-1.28 0-1.68.8-1.68 1.62V12h2.85l-.46 2.91h-2.39v7.04A10 10 0 0 0 22 12Z"/></svg>',
+        'instagram' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>',
+        'linkedin' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5ZM3 9.98h4v10.52H3V9.98Zm7.5 0h3.83v1.44h.05c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.78 2.65 4.78 6.1v6.04h-4v-5.36c0-1.28-.02-2.93-1.78-2.93-1.78 0-2.06 1.4-2.06 2.84v5.45h-4V9.98Z"/></svg>',
+        'twitter' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 4h2.9l-6.3 7.2L23 20h-5.8l-4.5-5.9L7.5 20H4.6l6.7-7.7L4 4h5.9l4.1 5.4L18.9 4Z"/></svg>',
+        'x' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 4h2.9l-6.3 7.2L23 20h-5.8l-4.5-5.9L7.5 20H4.6l6.7-7.7L4 4h5.9l4.1 5.4L18.9 4Z"/></svg>',
+        'youtube' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.4-.43-5.02a2.94 2.94 0 0 0-2.07-2.08C18.9 4.46 12 4.46 12 4.46s-6.9 0-8.5.44a2.94 2.94 0 0 0-2.07 2.08C1 8.6 1 12 1 12s0 3.4.43 5.02c.24.9 1 1.6 1.9 1.84 1.6.44 8.5.44 8.5.44s6.9 0 8.5-.44a2.94 2.94 0 0 0 2.07-1.84C23 15.4 23 12 23 12ZM9.75 15.4V8.6L15.5 12l-5.75 3.4Z"/></svg>',
+        'tiktok' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.4 2.2 1.8 3.8 4.2 4v3.1c-1.5 0-2.9-.4-4.1-1.2v6.4a6 6 0 1 1-6-6c.3 0 .5 0 .8.05v3.2a2.8 2.8 0 1 0 2 2.7V3h3.1Z"/></svg>',
+    ];
+    foreach ($icons as $needle => $svg) {
+        if (strpos($key, $needle) !== false) {
+            return $svg;
+        }
+    }
+    return '';
+}
+
 /* ---------------- Admin ---------------- */
 
 class WC_Footer_Settings {
