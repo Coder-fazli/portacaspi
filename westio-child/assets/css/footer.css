@@ -52,6 +52,10 @@
     height: auto;
 }
 
+.wc-footer-brand .wc-footer-social {
+    margin-top: 20px;
+}
+
 .wc-footer-right {
     display: flex;
     flex-wrap: wrap;
