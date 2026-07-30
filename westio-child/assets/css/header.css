@@ -19,6 +19,18 @@
     font-weight: 400;
 }
 
+/* Chevron on top-level items that have a dropdown submenu */
+.main-navigation ul.menu > li.menu-item-has-children > a:after {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-left: 2px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+}
+
 /* Kill default list bullets on menu items */
 .site-header .main-navigation ul,
 .site-header .main-navigation li,
