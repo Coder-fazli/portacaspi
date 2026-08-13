@@ -92,8 +92,34 @@
         });
     }
 
+    // The mobile hamburger button lives in a different header branch
+    // (.header-left) than the phone/language icons (.header-right's
+    // .wc-header-actions), so plain CSS can't interleave them into one
+    // order. Re-parent it into that same flex row instead — moving a node
+    // preserves whatever click handlers the theme already attached to it.
+    function reorderMobileHeader() {
+        if (!isMobile()) {
+            return;
+        }
+        var actions = document.querySelector('.wc-header-actions');
+        var hamburger = document.querySelector('.menu-mobile-nav-button');
+        if (!actions || !hamburger) {
+            return;
+        }
+        var phone = actions.querySelector('.wc-header-phone');
+        var langSwitcher = actions.querySelector('.wc-lang-switcher');
+        if (phone) {
+            actions.appendChild(phone);
+        }
+        if (langSwitcher) {
+            actions.appendChild(langSwitcher);
+        }
+        actions.appendChild(hamburger);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.hv-hero').forEach(initHero);
+        reorderMobileHeader();
     });
 
     if (window.elementorFrontend) {

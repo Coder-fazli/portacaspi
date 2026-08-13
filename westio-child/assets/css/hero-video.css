@@ -17,12 +17,17 @@
    #masthead gives this enough specificity to win regardless of CSS load
    order relative to the theme's own header styles. */
 #masthead.site-header .main-navigation ul.menu > li.menu-item > a,
-#masthead.site-header .wc-lang-switcher,
-#masthead.site-header .wc-lang-switcher a,
-#masthead.site-header .wc-lang-switcher button,
+#masthead.site-header .wc-lang-current,
 #masthead.site-header .wc-header-phone,
 #masthead.site-header .wc-header-cta {
     color: #fff;
+}
+
+/* The dropdown panel itself has its own solid white background (opens on
+   hover/focus), so its language links keep their normal dark text — only
+   the always-visible toggle button above needs to flip to white. */
+#masthead.site-header .wc-lang-dropdown li a {
+    color: #0d2438;
 }
 
 #masthead.site-header .wc-header-cta {
@@ -47,7 +52,7 @@
     /* On tall/narrow browser windows the aspect-ratio height alone can end
        up quite short, leaving a lot of visible page below the fold. This
        floor keeps it substantial without going back to a fixed 100vh. */
-    min-height: 80vh;
+    min-height: 95vh;
     overflow: hidden;
 }
 
@@ -204,5 +209,18 @@
         bottom: 16px;
         width: 36px;
         height: 36px;
+    }
+
+    /* Mobile header over the video: drop the CTA button (phone number is
+       enough), and the hamburger's bars were hardcoded black for the old
+       solid-white header — flip them white too. JS moves the hamburger
+       next to the phone/language icons so the visual order reads
+       phone → language → hamburger (far right). */
+    #masthead.site-header .wc-header-cta {
+        display: none;
+    }
+
+    #masthead.site-header .menu-mobile-nav-button .westio-icon span {
+        background-color: #fff;
     }
 }
