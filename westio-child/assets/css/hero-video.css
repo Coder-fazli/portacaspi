@@ -12,6 +12,29 @@
     z-index: 20;
 }
 
+/* The nav's default dark text was styled for a solid white header bar —
+   over the video it reads as near-invisible, so switch it to white here.
+   #masthead gives this enough specificity to win regardless of CSS load
+   order relative to the theme's own header styles. */
+#masthead.site-header .main-navigation ul.menu > li.menu-item > a,
+#masthead.site-header .wc-lang-switcher,
+#masthead.site-header .wc-lang-switcher a,
+#masthead.site-header .wc-lang-switcher button,
+#masthead.site-header .wc-header-phone,
+#masthead.site-header .wc-header-cta {
+    color: #fff;
+}
+
+#masthead.site-header .wc-header-cta {
+    border-color: rgba(255, 255, 255, .7);
+}
+
+#masthead.site-header .wc-header-cta:hover {
+    background: #d9a26d;
+    border-color: #d9a26d;
+    color: #0d2438;
+}
+
 .hv-hero {
     position: relative;
     /* Full-bleed: breaks out of Elementor's boxed content width so the video
@@ -21,6 +44,10 @@
     margin-left: calc(50% - 50vw);
     margin-right: calc(50% - 50vw);
     aspect-ratio: var(--hv-ar, 16 / 9);
+    /* On tall/narrow browser windows the aspect-ratio height alone can end
+       up quite short, leaving a lot of visible page below the fold. This
+       floor keeps it substantial without going back to a fixed 100vh. */
+    min-height: 80vh;
     overflow: hidden;
 }
 
