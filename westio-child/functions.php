@@ -20,10 +20,28 @@ add_action('elementor/frontend/after_register_scripts', function () {
         [],
         file_exists($css_path) ? filemtime($css_path) : '1.0.0'
     );
+
+    $hero_js_path  = get_stylesheet_directory() . '/assets/js/hero-video.js';
+    $hero_css_path = get_stylesheet_directory() . '/assets/css/hero-video.css';
+
+    wp_register_script(
+        'westio-child-hero-video',
+        get_stylesheet_directory_uri() . '/assets/js/hero-video.js',
+        [],
+        file_exists($hero_js_path) ? filemtime($hero_js_path) : '1.0.0',
+        true
+    );
+    wp_register_style(
+        'westio-child-hero-video',
+        get_stylesheet_directory_uri() . '/assets/css/hero-video.css',
+        [],
+        file_exists($hero_css_path) ? filemtime($hero_css_path) : '1.0.0'
+    );
 });
 
 add_action('elementor/widgets/register', function ($widgets_manager) {
     require_once get_stylesheet_directory() . '/inc/elementor/widget-building-selector.php';
+    require_once get_stylesheet_directory() . '/inc/elementor/widget-hero-video.php';
 });
 
 add_action('wp_enqueue_scripts', function () {
