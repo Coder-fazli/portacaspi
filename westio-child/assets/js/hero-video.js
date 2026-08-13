@@ -56,12 +56,13 @@
             root.classList.add('hv-playing');
         });
 
-        // Only fetch/decode video after the page has finished loading everything
-        // else, so the hero's video never competes with fonts/CSS/critical JS
-        // for bandwidth. Also gated by an IntersectionObserver so a hero
-        // further down the page doesn't start downloading until it's in view.
-        var observer = ('IntersectionObserver' in window)
-            ? new IntersectionObserver(function (entries) {
+        // Gate loading on an IntersectionObserver rather than a fixed delay:
+        // a hero is on screen immediately, so this fires right away instead
+        // of waiting on window 'load' (which third-party scripts like GTM or
+        // a chat widget can stall for several seconds). A hero further down
+        // the page would still defer loading until it's actually scrolled to.
+        if ('IntersectionObserver' in window) {
+            new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         video.paused && allowedToPlay() && play();
@@ -69,21 +70,9 @@
                         video.pause();
                     }
                 });
-            }, { threshold: 0.1 })
-            : null;
-
-        function armWhenReady() {
-            if (observer) {
-                observer.observe(root);
-            } else {
-                play();
-            }
-        }
-
-        if (document.readyState === 'complete') {
-            armWhenReady();
+            }, { threshold: 0.1 }).observe(root);
         } else {
-            window.addEventListener('load', armWhenReady);
+            play();
         }
 
         document.addEventListener('visibilitychange', function () {

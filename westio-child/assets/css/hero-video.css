@@ -1,9 +1,13 @@
 .hv-hero {
     position: relative;
-    width: 100%;
-    min-height: 100vh;
+    /* Full-bleed: breaks out of Elementor's boxed content width so the video
+       reaches the true browser edges, regardless of the section's own
+       content-width setting. */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    aspect-ratio: var(--hv-ar, 16 / 9);
     overflow: hidden;
-    background: #0d2438;
 }
 
 .hv-poster,
@@ -33,17 +37,16 @@
     opacity: 1;
 }
 
+/* Soft top-only scrim so the header/heading stay legible over a bright sky —
+   deliberately does not darken the bottom of the frame. */
 .hv-shade {
     position: absolute;
     inset: 0;
     z-index: 2;
     pointer-events: none;
-    background:
-        linear-gradient(180deg,
-            rgba(8, 28, 38, .45) 0%,
-            rgba(8, 28, 38, .05) 25%,
-            rgba(8, 28, 38, 0) 55%,
-            rgba(8, 28, 38, .55) 100%);
+    background: linear-gradient(180deg,
+            rgba(8, 28, 38, .35) 0%,
+            rgba(8, 28, 38, 0) 35%);
 }
 
 .hv-content {
@@ -107,9 +110,12 @@
 }
 
 @media (max-width: 767px) {
+    /* Instagram-style vertical frame: fixed 9:16 box, full width, cropped
+       via object-fit: cover (not the desktop's uncropped native ratio).
+       max-height keeps it from ever filling the whole screen. */
     .hv-hero {
-        min-height: auto;
-        height: var(--hv-mobile-h, 100vh);
+        aspect-ratio: 9 / 16;
+        max-height: var(--hv-mobile-h, 85vh);
     }
 
     .hv-content {

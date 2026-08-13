@@ -123,11 +123,12 @@ class Westio_Child_Hero_Video extends Widget_Base {
             'description'  => esc_html__('Turn off to save mobile data — phones will show the poster image only instead of downloading the video.', 'westio-child'),
         ]);
         $this->add_control('mobile_height', [
-            'label'     => esc_html__('Height on Mobile (vh)', 'westio-child'),
-            'type'      => Controls_Manager::SLIDER,
-            'range'     => ['px' => ['min' => 40, 'max' => 100]],
-            'default'   => ['size' => 100],
-            'selectors' => [
+            'label'       => esc_html__('Max Height on Mobile (vh)', 'westio-child'),
+            'description' => esc_html__('Caps how tall the 9:16 video box can get on phones, so it doesn\'t fill the entire screen.', 'westio-child'),
+            'type'        => Controls_Manager::SLIDER,
+            'range'       => ['px' => ['min' => 40, 'max' => 100]],
+            'default'     => ['size' => 85],
+            'selectors'   => [
                 '{{WRAPPER}} .hv-hero' => '--hv-mobile-h: {{SIZE}}vh;',
             ],
         ]);
@@ -141,9 +142,21 @@ class Westio_Child_Hero_Video extends Widget_Base {
         $poster_url = !empty($settings['poster']['url']) ? $settings['poster']['url'] : get_stylesheet_directory_uri() . '/assets/images/hero-intro-poster.jpg';
         $play_on_mobile = $settings['play_on_mobile'] === 'yes';
 
+        // Desktop box follows the poster's real aspect ratio (defaults to the
+        // bundled 16:9 frame) so the video is never stretched or cropped on
+        // the sides — mobile overrides this to a fixed 9:16 box in CSS.
+        $ratio = '16 / 9';
+        if (!empty($settings['poster']['id'])) {
+            $src = wp_get_attachment_image_src($settings['poster']['id'], 'full');
+            if ($src && !empty($src[1]) && !empty($src[2])) {
+                $ratio = $src[1] . ' / ' . $src[2];
+            }
+        }
+
         $this->add_render_attribute('wrapper', 'class', 'hv-hero');
         $this->add_render_attribute('wrapper', 'data-play-mobile', $play_on_mobile ? '1' : '0');
         $this->add_render_attribute('wrapper', 'data-video', esc_url($video_url));
+        $this->add_render_attribute('wrapper', 'style', '--hv-ar: ' . esc_attr($ratio) . ';');
         ?>
         <div <?php echo $this->get_render_attribute_string('wrapper'); ?>>
             <img class="hv-poster" src="<?php echo esc_url($poster_url); ?>" alt="" fetchpriority="high">
