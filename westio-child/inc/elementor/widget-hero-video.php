@@ -186,6 +186,12 @@ class Westio_Child_Hero_Video extends Widget_Base {
                     endif; ?>
                 </div>
             <?php endif; ?>
+
+            <button type="button" class="hv-scroll-cue" aria-label="<?php esc_attr_e('Scroll down', 'westio-child'); ?>">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M5 9l7 7 7-7" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
         </div>
         <?php
     }

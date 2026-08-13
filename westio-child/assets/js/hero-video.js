@@ -56,6 +56,14 @@
             root.classList.add('hv-playing');
         });
 
+        var scrollCue = root.querySelector('.hv-scroll-cue');
+        if (scrollCue) {
+            scrollCue.addEventListener('click', function () {
+                var y = root.getBoundingClientRect().bottom + window.scrollY;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            });
+        }
+
         // Gate loading on an IntersectionObserver rather than a fixed delay:
         // a hero is on screen immediately, so this fires right away instead
         // of waiting on window 'load' (which third-party scripts like GTM or

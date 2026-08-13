@@ -1,3 +1,17 @@
+/* Let the hero video read as the header's background too: pull the header
+   out of normal flow so it overlays the hero instead of sitting above it.
+   This stylesheet only loads on pages that use the widget (Elementor's
+   get_style_depends), so it only affects hero pages — the header is
+   assumed to already be the very first thing on the page, which is how
+   this widget is meant to be used. */
+#masthead.site-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 20;
+}
+
 .hv-hero {
     position: relative;
     /* Full-bleed: breaks out of Elementor's boxed content width so the video
@@ -109,6 +123,39 @@
     color: #0d2438;
 }
 
+.hv-scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    z-index: 3;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, .6);
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    animation: hv-bounce 2s ease-in-out infinite;
+}
+
+.hv-scroll-cue svg {
+    width: 16px;
+    height: 16px;
+}
+
+.hv-scroll-cue:hover {
+    background: rgba(255, 255, 255, .15);
+}
+
+@keyframes hv-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+}
+
 @media (max-width: 767px) {
     /* Instagram-style vertical frame: fixed 9:16 box, full width, cropped
        via object-fit: cover (not the desktop's uncropped native ratio).
@@ -124,5 +171,11 @@
 
     .hv-subheading {
         font-size: 14px;
+    }
+
+    .hv-scroll-cue {
+        bottom: 16px;
+        width: 36px;
+        height: 36px;
     }
 }
