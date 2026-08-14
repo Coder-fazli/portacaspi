@@ -1,0 +1,132 @@
+.gm-gallery-wrap {
+    width: 100%;
+}
+
+.gm-gallery {
+    column-count: var(--gm-cols, 4);
+    column-gap: 20px;
+}
+
+.gm-item {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.gm-item:not(.gm-visible) {
+    display: none;
+}
+
+.gm-item a {
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+
+.gm-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform .35s ease;
+}
+
+.gm-item a:hover img {
+    transform: scale(1.05);
+}
+
+/* ---------- Placeholder tiles (shown until real photos are added) ---------- */
+.gm-placeholder {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: rgba(255, 255, 255, .8);
+}
+
+.gm-placeholder svg {
+    width: 32px;
+    height: 32px;
+    opacity: .85;
+}
+
+.gm-placeholder-label {
+    position: absolute;
+    left: 14px;
+    bottom: 12px;
+    font-size: 12px;
+    letter-spacing: .08em;
+    color: rgba(255, 255, 255, .75);
+}
+
+.gm-h-a { aspect-ratio: 3 / 4; }
+.gm-h-b { aspect-ratio: 4 / 3; }
+.gm-h-c { aspect-ratio: 1 / 1; }
+.gm-h-d { aspect-ratio: 3 / 5; }
+.gm-h-e { aspect-ratio: 5 / 4; }
+
+.gm-t-1 { background: linear-gradient(160deg, #16324a 0%, #0d2438 100%); }
+.gm-t-2 { background: linear-gradient(160deg, #c79362 0%, #a97a4a 100%); }
+.gm-t-3 { background: linear-gradient(160deg, #2c4560 0%, #16324a 100%); }
+.gm-t-4 { background: linear-gradient(160deg, #b9a37f 0%, #8f7852 100%); }
+
+/* ---------- Load more ---------- */
+.gm-load-more-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding-top: 20px;
+}
+
+.gm-load-more-btn {
+    display: inline-block;
+    padding: 16px 44px;
+    border: 1px solid #d9a26d;
+    color: #0d2438;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-size: 14px;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color .25s ease, color .25s ease;
+    font-family: inherit;
+}
+
+.gm-load-more-btn:hover {
+    background: #d9a26d;
+}
+
+.gm-load-more-btn[hidden] {
+    display: none;
+}
+
+.gm-load-more-done {
+    font-size: 13px;
+    letter-spacing: .05em;
+    color: #7a7266;
+}
+
+@media (max-width: 1024px) {
+    .gm-gallery {
+        column-count: 3;
+    }
+}
+
+@media (max-width: 767px) {
+    /* Explicit requirement: 2 columns on mobile, not 1 — independent of
+       the desktop column setting. */
+    .gm-gallery {
+        column-count: 2;
+        column-gap: 12px;
+    }
+
+    .gm-item {
+        margin-bottom: 12px;
+    }
+
+    .gm-placeholder svg {
+        width: 24px;
+        height: 24px;
+    }
+}
