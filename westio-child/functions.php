@@ -96,6 +96,15 @@ add_action('wp_enqueue_scripts', function () {
         file_exists($header_path) ? filemtime($header_path) : '1.0.0'
     );
 
+    $header_js_path = get_stylesheet_directory() . '/assets/js/header.js';
+    wp_enqueue_script(
+        'westio-child-header',
+        get_stylesheet_directory_uri() . '/assets/js/header.js',
+        [],
+        file_exists($header_js_path) ? filemtime($header_js_path) : '1.0.0',
+        true
+    );
+
     if (function_exists('wcf_get_header_logo_width')) {
         $logo_width = wcf_get_header_logo_width();
         wp_add_inline_style('westio-child-header', ".header-1 .site-branding img { width: {$logo_width}px; }");
@@ -134,6 +143,25 @@ add_action('wp_enqueue_scripts', function () {
 
 // Header CTA / phone are now edited per-language in the Header & Footer
 // admin page (see inc/footer-settings.php), no Polylang string scan needed.
+
+// If a language has no menu assigned to the "Handheld Menu" (mobile) theme
+// location, WordPress's default behavior for wp_nav_menu() is to silently
+// fall back to wp_list_pages() — a flat list of every published page, with
+// no submenu structure at all (no menu-item-has-children, so the mobile
+// nav's dropdown-toggle JS has nothing to attach to). Reuse whatever menu
+// IS assigned to Primary instead, so mobile submenus keep working for any
+// language without a separate Handheld assignment ever having to exist.
+add_filter('wp_nav_menu_args', function ($args) {
+    if (($args['theme_location'] ?? '') !== 'handheld') {
+        return $args;
+    }
+    $locations = get_nav_menu_locations();
+    if (!empty($locations['handheld']) || empty($locations['primary'])) {
+        return $args;
+    }
+    $args['menu'] = $locations['primary'];
+    return $args;
+});
 
 // Google Tag Manager.
 add_action('wp_head', function () {

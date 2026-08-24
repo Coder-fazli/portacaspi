@@ -211,15 +211,10 @@
         height: 36px;
     }
 
-    /* Mobile header over the video: drop the CTA button (phone number is
-       enough), and the hamburger's bars were hardcoded black for the old
-       solid-white header — flip them white too. JS moves the hamburger
-       next to the phone/language icons so the visual order reads
-       phone → language → hamburger (far right). */
-    #masthead.site-header .wc-header-cta {
-        display: none;
-    }
-
+    /* The hamburger's bars are hardcoded black in the parent theme (correct
+       for the old solid-white header) — flip them white here since they
+       sit over the video/photo instead. CTA-hide + hamburger reordering
+       are universal now, handled in header.css/header.js. */
     #masthead.site-header .menu-mobile-nav-button .westio-icon span {
         background-color: #fff;
     }

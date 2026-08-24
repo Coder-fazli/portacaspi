@@ -1,6 +1,13 @@
 /* Custom header additions — inherits Westio's header-1 layout,
    styles only the new right-side elements. */
 
+/* The theme's default header has a 1px solid border-bottom (.header-1 in
+   the parent theme's style.css) — a stark white/gray line. Soften it to
+   something minimal instead. */
+#masthead.site-header {
+    border-bottom-color: rgba(13, 36, 56, .08);
+}
+
 .wc-header-actions {
     display: flex;
     align-items: center;
@@ -129,6 +136,33 @@
     font-weight: 600;
     color: inherit;
     white-space: nowrap;
+}
+
+/* Longer phone numbers (RU/EN default to "+994 12 345 67 89" vs AZ's short
+   "*0006") were overflowing the mobile header and overlapping the
+   hamburger/language switcher next to them — nowrap text has no limit on
+   how wide it can get. Truncate instead of ever letting it push siblings
+   around. */
+@media (max-width: 767px) {
+    .wc-header-actions {
+        gap: 12px;
+    }
+
+    .wc-header-phone {
+        display: inline-block;
+        max-width: 92px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 12px;
+    }
+
+    /* Phone number is enough on mobile — the CTA button is redundant and
+       crowds the header. Same on every page/language now, not just pages
+       using the Hero Video widget (header.js reorders the hamburger next
+       to phone/language on every page too). */
+    .wc-header-cta {
+        display: none;
+    }
 }
 
 .wc-header-cta {
