@@ -29,7 +29,9 @@
     z-index: 1;
 }
 
-/* Top area: brand pinned left, address + explore grouped and pushed right */
+/* Top area: brand, menu, address and the contact card as four equal
+   siblings spaced evenly across the full width — not one group pinned
+   left and everything else clumped at the far right. */
 .wc-footer-top {
     display: flex;
     align-items: flex-start;
@@ -56,11 +58,47 @@
     margin-top: 20px;
 }
 
-.wc-footer-right {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 80px;
-    margin-left: auto;
+/* "Contact line" card — a soft tinted wash (brand cream/gold #f1d3b5 at low
+   opacity) rather than a solid fill, so it reads as its own block without
+   competing with the white card. Text stays navy: white/gold on a background
+   this light would fail contrast. */
+.wc-footer-contact {
+    background: rgba(241, 211, 181, .35);
+    border: 1px solid rgba(217, 162, 109, .4);
+    border-radius: 18px;
+    padding: 22px 30px;
+    text-align: center;
+    transition: background-color .2s ease, border-color .2s ease;
+}
+
+.wc-footer-contact:hover {
+    background: rgba(241, 211, 181, .55);
+    border-color: #d9a26d;
+}
+
+.wc-footer-contact a {
+    display: block;
+    text-decoration: none;
+}
+
+.wc-footer-contact .wc-footer-heading {
+    color: #9c8467;
+    margin-bottom: 12px;
+}
+
+.wc-footer-contact-short {
+    display: block;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: #0d2438;
+}
+
+.wc-footer-contact-full {
+    display: block;
+    margin-top: 6px;
+    font-size: 15px;
+    color: rgba(13, 36, 56, .75);
 }
 
 .wc-footer-sitename {
@@ -87,9 +125,8 @@
 }
 
 .wc-footer-menus {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    display: flex;
+    gap: 48px;
 }
 
 .wc-footer-menu {
@@ -178,9 +215,6 @@
     .wc-footer-card {
         padding: 50px 32px 32px;
     }
-    .wc-footer-right {
-        gap: 40px;
-    }
 }
 
 @media (max-width: 600px) {
@@ -190,18 +224,23 @@
     }
     .wc-footer-top {
         flex-direction: column;
+        align-items: center;
+        text-align: center;
         gap: 32px;
     }
-    .wc-footer-right {
-        flex-direction: column;
-        gap: 32px;
-        margin-left: 0;
+    .wc-footer-brand {
+        align-items: center;
+    }
+    .wc-footer-social {
+        justify-content: center;
     }
     .wc-footer-menus {
-        grid-template-columns: 1fr 1fr;
+        justify-content: center;
+        gap: 32px;
     }
     .wc-footer-bottom {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
+        text-align: center;
     }
 }

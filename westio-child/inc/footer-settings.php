@@ -38,6 +38,9 @@ function wcf_lang_defaults() {
         'address_label' => 'ADDRESS',
         'address_text'  => "2972 Westheimer Rd.\nSanta Ana, Illinois 85486",
         'explore_label' => 'EXPLORE',
+        'contact_label' => 'ƏLAQƏ XƏTTİ',
+        'contact_short' => '*0006',
+        'contact_full'  => '(+994) 50-830-00-06',
         'columns'       => [
             [['label' => 'Architecture', 'url' => '#'], ['label' => 'Amenities', 'url' => '#'], ['label' => 'Residences', 'url' => '#']],
             [['label' => 'Neighborhood', 'url' => '#'], ['label' => 'Availability', 'url' => '#'], ['label' => 'Gallery', 'url' => '#']],
@@ -150,6 +153,9 @@ class WC_Footer_Settings {
                     'address_label' => sanitize_text_field($data['address_label'] ?? ''),
                     'address_text'  => sanitize_textarea_field($data['address_text'] ?? ''),
                     'explore_label' => sanitize_text_field($data['explore_label'] ?? ''),
+                    'contact_label' => sanitize_text_field($data['contact_label'] ?? ''),
+                    'contact_short' => sanitize_text_field($data['contact_short'] ?? ''),
+                    'contact_full'  => sanitize_text_field($data['contact_full'] ?? ''),
                     'copyright'     => sanitize_text_field($data['copyright'] ?? ''),
                     'columns'       => [],
                     'socials'       => [],
@@ -307,6 +313,20 @@ class WC_Footer_Settings {
             <tr>
                 <th scope="row"><?php esc_html_e('Explore heading', 'westio-child'); ?></th>
                 <td><input type="text" class="regular-text" name="<?php echo esc_attr($base); ?>[explore_label]" value="<?php echo esc_attr($data['explore_label']); ?>"></td>
+            </tr>
+            <tr>
+                <th scope="row"><?php esc_html_e('Contact card heading', 'westio-child'); ?></th>
+                <td><input type="text" class="regular-text" name="<?php echo esc_attr($base); ?>[contact_label]" value="<?php echo esc_attr($data['contact_label']); ?>"></td>
+            </tr>
+            <tr>
+                <th scope="row"><?php esc_html_e('Contact card short number', 'westio-child'); ?></th>
+                <td><input type="text" class="regular-text" name="<?php echo esc_attr($base); ?>[contact_short]" value="<?php echo esc_attr($data['contact_short']); ?>">
+                <p class="description"><?php esc_html_e('e.g. *0006 — the large highlighted line.', 'westio-child'); ?></p></td>
+            </tr>
+            <tr>
+                <th scope="row"><?php esc_html_e('Contact card full number', 'westio-child'); ?></th>
+                <td><input type="text" class="regular-text" name="<?php echo esc_attr($base); ?>[contact_full]" value="<?php echo esc_attr($data['contact_full']); ?>">
+                <p class="description"><?php esc_html_e('e.g. (+994) 50-830-00-06 — shown below the short number; the card links to this as a phone call.', 'westio-child'); ?></p></td>
             </tr>
         </table>
 

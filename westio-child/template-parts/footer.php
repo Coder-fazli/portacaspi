@@ -12,6 +12,9 @@ $bg_image = function_exists('wcf_get_bg_image') ? wcf_get_bg_image() : '';
 $address_label = $d['address_label'] ?? 'ADDRESS';
 $address_text  = $d['address_text'] ?? '';
 $explore_label = $d['explore_label'] ?? 'EXPLORE';
+$contact_label = $d['contact_label'] ?? '';
+$contact_short = $d['contact_short'] ?? '';
+$contact_full  = $d['contact_full'] ?? '';
 $columns       = !empty($d['columns']) && is_array($d['columns']) ? $d['columns'] : [];
 $copyright     = $d['copyright'] ?? '';
 $socials       = !empty($d['socials']) && is_array($d['socials']) ? $d['socials'] : [];
@@ -48,33 +51,51 @@ $footer_style = $bg_image ? ' style="background-image:url(' . esc_url($bg_image)
                     </div>
                 </div>
 
-                <div class="wc-footer-right">
-                    <div class="wc-footer-address">
-                        <?php if ($address_label) : ?>
-                            <h4 class="wc-footer-heading"><?php echo esc_html($address_label); ?></h4>
-                        <?php endif; ?>
-                        <p><?php echo nl2br(esc_html($address_text)); ?></p>
-                    </div>
-
-                    <div class="wc-footer-explore">
-                        <?php if ($explore_label) : ?>
-                            <h4 class="wc-footer-heading"><?php echo esc_html($explore_label); ?></h4>
-                        <?php endif; ?>
-                        <div class="wc-footer-menus">
-                            <?php foreach ($columns as $col) : ?>
-                                <div class="wc-footer-menu-col">
-                                    <ul class="wc-footer-menu">
-                                        <?php foreach ((array) $col as $item) : ?>
-                                            <?php if (!empty($item['label'])) : ?>
-                                                <li><a href="<?php echo esc_url($item['url'] ?: '#'); ?>"><?php echo esc_html($item['label']); ?></a></li>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </ul>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+                <div class="wc-footer-explore">
+                    <?php if ($explore_label) : ?>
+                        <h4 class="wc-footer-heading"><?php echo esc_html($explore_label); ?></h4>
+                    <?php endif; ?>
+                    <div class="wc-footer-menus">
+                        <?php foreach ($columns as $col) :
+                            if (empty($col)) {
+                                continue;
+                            }
+                            ?>
+                            <div class="wc-footer-menu-col">
+                                <ul class="wc-footer-menu">
+                                    <?php foreach ((array) $col as $item) : ?>
+                                        <?php if (!empty($item['label'])) : ?>
+                                            <li><a href="<?php echo esc_url($item['url'] ?: '#'); ?>"><?php echo esc_html($item['label']); ?></a></li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
+
+                <div class="wc-footer-address">
+                    <?php if ($address_label) : ?>
+                        <h4 class="wc-footer-heading"><?php echo esc_html($address_label); ?></h4>
+                    <?php endif; ?>
+                    <p><?php echo nl2br(esc_html($address_text)); ?></p>
+                </div>
+
+                <?php if ($contact_short || $contact_full) : ?>
+                    <div class="wc-footer-contact">
+                        <a href="tel:<?php echo esc_attr(preg_replace('/[^+\d]/', '', $contact_full ?: $contact_short)); ?>">
+                            <?php if ($contact_label) : ?>
+                                <h4 class="wc-footer-heading"><?php echo esc_html($contact_label); ?></h4>
+                            <?php endif; ?>
+                            <?php if ($contact_short) : ?>
+                                <span class="wc-footer-contact-short"><?php echo esc_html($contact_short); ?></span>
+                            <?php endif; ?>
+                            <?php if ($contact_full) : ?>
+                                <span class="wc-footer-contact-full"><?php echo esc_html($contact_full); ?></span>
+                            <?php endif; ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <div class="wc-footer-bottom">
