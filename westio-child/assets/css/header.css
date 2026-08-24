@@ -155,14 +155,6 @@
         text-overflow: ellipsis;
         font-size: 12px;
     }
-
-    /* Phone number is enough on mobile — the CTA button is redundant and
-       crowds the header. Same on every page/language now, not just pages
-       using the Hero Video widget (header.js reorders the hamburger next
-       to phone/language on every page too). */
-    .wc-header-cta {
-        display: none;
-    }
 }
 
 .wc-header-cta {
@@ -181,4 +173,15 @@
 .wc-header-cta:hover {
     background: var(--e-global-color-primary, #BDAD7B);
     color: #fff;
+}
+
+/* Phone number is enough on mobile — the CTA button is redundant and
+   crowds the header. Same on every page/language now, not just pages
+   using the Hero Video widget (header.js reorders the hamburger next to
+   phone/language on every page too). Placed after the unconditional
+   .wc-header-cta rule above so it actually wins at equal specificity. */
+@media (max-width: 767px) {
+    .wc-header-cta {
+        display: none;
+    }
 }
