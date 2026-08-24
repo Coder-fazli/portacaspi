@@ -14,6 +14,15 @@
     gap: 24px;
 }
 
+/* Mobile off-canvas menu: the parent theme shows a "tab bar" above the
+   menu whose label is just the WordPress menu's own admin-facing name
+   (e.g. "Main Menu", "Ru menu") — only meaningful when there's a second
+   tab (WooCommerce categories) to switch to. There isn't one here, so
+   it's just a redundant, non-interactive label. */
+.mobile-nav-tabs {
+    display: none;
+}
+
 /* Remove Westio's decorative circle before top-level menu links */
 .main-navigation ul.menu > li.menu-item > a:before {
     display: none;
