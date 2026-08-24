@@ -5,8 +5,6 @@ if (!defined('ABSPATH')) {
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
-use Elementor\Repeater;
-use Elementor\Utils;
 
 class Westio_Child_Gallery_Masonry extends Widget_Base {
 
@@ -53,37 +51,18 @@ class Westio_Child_Gallery_Masonry extends Widget_Base {
         $this->start_controls_section('section_items', [
             'label' => esc_html__('Images', 'westio-child'),
         ]);
-
-        $repeater = new Repeater();
-        $repeater->add_control('image', [
-            'label'   => esc_html__('Image', 'westio-child'),
-            'type'    => Controls_Manager::MEDIA,
-            'default' => ['url' => Utils::get_placeholder_image_src()],
-        ]);
-        $repeater->add_control('title', [
-            'label'   => esc_html__('Title', 'westio-child'),
-            'type'    => Controls_Manager::TEXT,
-            'default' => '',
-        ]);
-        $repeater->add_control('desc', [
-            'label'   => esc_html__('Short description', 'westio-child'),
-            'type'    => Controls_Manager::TEXT,
-            'default' => '',
-        ]);
-
-        $this->add_control('items', [
+        $this->add_control('images', [
             'label'       => esc_html__('Images', 'westio-child'),
-            'type'        => Controls_Manager::REPEATER,
-            'fields'      => $repeater->get_controls(),
-            'title_field' => '{{{ title }}}',
+            'type'        => Controls_Manager::GALLERY,
             'default'     => [],
+            'description' => esc_html__('Select as many as you like at once from the media library. Hover captions are pulled automatically from each image\'s Title and Caption fields (set those in the media library if you want them shown) — no need to type them here.', 'westio-child'),
         ]);
         $this->end_controls_section();
     }
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-        $items    = !empty($settings['items']) ? $settings['items'] : [];
+        $images   = !empty($settings['images']) ? $settings['images'] : [];
         ?>
         <div class="gm-wrap">
             <?php if (!empty($settings['title']) || !empty($settings['description'])) : ?>
@@ -97,29 +76,35 @@ class Westio_Child_Gallery_Masonry extends Widget_Base {
                 </div>
             <?php endif; ?>
 
+            <div class="gm-track-wrap">
             <div class="gm-track">
                 <div class="gm-grid">
-                    <?php if (!empty($items)) :
-                        foreach ($items as $item) :
-                            $id = !empty($item['image']['id']) ? $item['image']['id'] : 0;
-                            $full  = $id ? wp_get_attachment_image_url($id, 'full') : ($item['image']['url'] ?? '');
+                    <?php if (!empty($images)) :
+                        foreach ($images as $image) :
+                            $id = !empty($image['id']) ? $image['id'] : 0;
+                            $full  = $id ? wp_get_attachment_image_url($id, 'full') : ($image['url'] ?? '');
                             $thumb = $id ? wp_get_attachment_image_url($id, 'large') : $full;
                             if (!$thumb) {
                                 continue;
                             }
+                            // Captions come from the attachment's own Title/Caption
+                            // fields, not a form field here — keeps adding 50+
+                            // photos a single bulk selection instead of per-item entry.
+                            $title = $id ? get_the_title($id) : '';
+                            $desc  = $id ? wp_get_attachment_caption($id) : '';
                             ?>
                             <button type="button" class="gm-item"
                                 data-full="<?php echo esc_url($full); ?>"
-                                data-title="<?php echo esc_attr($item['title']); ?>"
-                                data-desc="<?php echo esc_attr($item['desc']); ?>">
-                                <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr($item['title']); ?>" loading="lazy" draggable="false">
-                                <?php if (!empty($item['title']) || !empty($item['desc'])) : ?>
+                                data-title="<?php echo esc_attr($title); ?>"
+                                data-desc="<?php echo esc_attr($desc); ?>">
+                                <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr($title); ?>" loading="lazy" draggable="false">
+                                <?php if ($title || $desc) : ?>
                                     <span class="gm-item-overlay">
-                                        <?php if (!empty($item['title'])) : ?>
-                                            <span class="gm-item-title"><?php echo esc_html($item['title']); ?></span>
+                                        <?php if ($title) : ?>
+                                            <span class="gm-item-title"><?php echo esc_html($title); ?></span>
                                         <?php endif; ?>
-                                        <?php if (!empty($item['desc'])) : ?>
-                                            <span class="gm-item-desc"><?php echo esc_html($item['desc']); ?></span>
+                                        <?php if ($desc) : ?>
+                                            <span class="gm-item-desc"><?php echo esc_html($desc); ?></span>
                                         <?php endif; ?>
                                     </span>
                                 <?php endif; ?>
@@ -139,6 +124,16 @@ class Westio_Child_Gallery_Masonry extends Widget_Base {
                         <?php endfor;
                     endif; ?>
                 </div>
+            </div>
+
+            <?php if (!empty($images)) : ?>
+                <button type="button" class="gm-nav gm-nav-prev" aria-label="<?php esc_attr_e('Scroll left', 'westio-child'); ?>">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </button>
+                <button type="button" class="gm-nav gm-nav-next" aria-label="<?php esc_attr_e('Scroll right', 'westio-child'); ?>">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                </button>
+            <?php endif; ?>
             </div>
         </div>
 

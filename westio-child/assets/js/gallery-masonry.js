@@ -90,6 +90,41 @@
                 openLightbox(lightbox, item);
             });
         });
+
+        // Arrows: nudge by roughly one and a half tiles, and hide/disable
+        // at each end so they never look clickable when there's nowhere
+        // left to scroll.
+        var prevBtn = wrap.querySelector('.gm-nav-prev');
+        var nextBtn = wrap.querySelector('.gm-nav-next');
+
+        function scrollByTile(dir) {
+            var tile = track.querySelector('.gm-item');
+            var step = tile ? tile.getBoundingClientRect().width * 1.5 : track.clientWidth * 0.8;
+            track.scrollBy({ left: dir * step, behavior: 'smooth' });
+        }
+
+        function updateNavState() {
+            var max = track.scrollWidth - track.clientWidth;
+            var hasOverflow = max > 4;
+            if (prevBtn) {
+                prevBtn.hidden = !hasOverflow;
+                prevBtn.disabled = track.scrollLeft <= 4;
+            }
+            if (nextBtn) {
+                nextBtn.hidden = !hasOverflow;
+                nextBtn.disabled = track.scrollLeft >= max - 4;
+            }
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function () { scrollByTile(-1); });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function () { scrollByTile(1); });
+        }
+        track.addEventListener('scroll', updateNavState);
+        window.addEventListener('resize', updateNavState);
+        updateNavState();
     }
 
     document.addEventListener('DOMContentLoaded', function () {

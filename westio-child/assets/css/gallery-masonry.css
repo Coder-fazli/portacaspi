@@ -28,6 +28,61 @@
 }
 
 /* ---------- Horizontal drag/scroll track ---------- */
+.gm-track-wrap {
+    position: relative;
+}
+
+/* Minimalist, semi-transparent — just enough to signal "this scrolls
+   sideways" without competing with the photos. */
+.gm-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(13, 36, 56, .1);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: #0d2438;
+    opacity: .6;
+    cursor: pointer;
+    transition: opacity .2s ease, background-color .2s ease;
+}
+
+.gm-nav:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, .85);
+}
+
+.gm-nav:disabled {
+    opacity: .25;
+    cursor: default;
+}
+
+.gm-nav:disabled:hover {
+    background: rgba(255, 255, 255, .55);
+}
+
+.gm-nav svg {
+    width: 18px;
+    height: 18px;
+}
+
+.gm-nav-prev {
+    left: 16px;
+}
+
+.gm-nav-next {
+    right: 16px;
+}
+
 .gm-track {
     overflow-x: auto;
     overflow-y: hidden;
@@ -253,5 +308,18 @@ body.gm-lock-scroll {
 
     .gm-item {
         border-radius: 10px;
+    }
+
+    .gm-nav {
+        width: 38px;
+        height: 38px;
+    }
+
+    .gm-nav-prev {
+        left: 6px;
+    }
+
+    .gm-nav-next {
+        right: 6px;
     }
 }
