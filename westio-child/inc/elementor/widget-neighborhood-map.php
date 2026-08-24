@@ -7,6 +7,7 @@ use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
 use Elementor\Utils;
+use Elementor\Group_Control_Typography;
 
 class Westio_Child_Neighborhood_Map extends Widget_Base {
 
@@ -35,11 +36,17 @@ class Westio_Child_Neighborhood_Map extends Widget_Base {
             'label' => esc_html__('Background', 'westio-child'),
         ]);
         $this->add_control('bg_image', [
-            'label'   => esc_html__('Image', 'westio-child'),
+            'label'   => esc_html__('Image (Desktop)', 'westio-child'),
             'type'    => Controls_Manager::MEDIA,
             'default' => [
                 'url' => Utils::get_placeholder_image_src(),
             ],
+        ]);
+        $this->add_control('bg_image_mobile', [
+            'label'       => esc_html__('Image (Mobile)', 'westio-child'),
+            'type'        => Controls_Manager::MEDIA,
+            'default'     => [],
+            'description' => esc_html__('Optional — a tighter crop tends to read better on phones than a wide aerial shot. Falls back to the desktop image if left empty.', 'westio-child'),
         ]);
         $this->end_controls_section();
 
@@ -55,6 +62,15 @@ class Westio_Child_Neighborhood_Map extends Widget_Base {
             'label'   => esc_html__('Heading', 'westio-child'),
             'type'    => Controls_Manager::TEXTAREA,
             'default' => esc_html__('Əlverişli məkanda yaşayış', 'westio-child'),
+        ]);
+        $this->add_group_control(Group_Control_Typography::get_type(), [
+            'name'     => 'heading_typography',
+            'label'    => esc_html__('Heading Typography', 'westio-child'),
+            'selector' => '{{WRAPPER}} .nm-heading',
+            'fields_options' => [
+                'font_size' => ['default' => ['unit' => 'px', 'size' => 52]],
+                'font_weight' => ['default' => '700'],
+            ],
         ]);
         $this->end_controls_section();
 
@@ -114,18 +130,44 @@ class Westio_Child_Neighborhood_Map extends Widget_Base {
         $this->end_controls_section();
 
         $this->start_controls_section('section_fade', [
-            'label' => esc_html__('Bottom Fade', 'westio-child'),
+            'label' => esc_html__('Fade', 'westio-child'),
         ]);
         $this->add_control('fade_color', [
-            'label'   => esc_html__('Fade To Color', 'westio-child'),
-            'type'    => Controls_Manager::COLOR,
-            'default' => '#f5f1e8',
+            'label'       => esc_html__('Fade Color', 'westio-child'),
+            'type'        => Controls_Manager::COLOR,
+            'default'     => '#f5f1e8',
+            'description' => esc_html__('Match this to the background color of the sections above and below, so the photo dissolves into the page instead of cutting off.', 'westio-child'),
+        ]);
+        $this->add_control('fade_top', [
+            'label'        => esc_html__('Top Fade', 'westio-child'),
+            'type'         => Controls_Manager::SWITCHER,
+            'label_on'     => esc_html__('Yes', 'westio-child'),
+            'label_off'    => esc_html__('No', 'westio-child'),
+            'default'      => 'yes',
+        ]);
+        $this->add_control('fade_top_height', [
+            'label'     => esc_html__('Top Fade Height (px)', 'westio-child'),
+            'type'      => Controls_Manager::SLIDER,
+            'range'     => ['px' => ['min' => 40, 'max' => 400]],
+            'default'   => ['size' => 160],
+            'condition' => ['fade_top' => 'yes'],
+            'selectors' => [
+                '{{WRAPPER}} .nm-fade-top' => 'height: {{SIZE}}px;',
+            ],
+        ]);
+        $this->add_control('fade_bottom', [
+            'label'        => esc_html__('Bottom Fade', 'westio-child'),
+            'type'         => Controls_Manager::SWITCHER,
+            'label_on'     => esc_html__('Yes', 'westio-child'),
+            'label_off'    => esc_html__('No', 'westio-child'),
+            'default'      => 'yes',
         ]);
         $this->add_control('fade_height', [
-            'label'   => esc_html__('Fade Height (px)', 'westio-child'),
-            'type'    => Controls_Manager::SLIDER,
-            'range'   => ['px' => ['min' => 60, 'max' => 500]],
-            'default' => ['size' => 280],
+            'label'     => esc_html__('Bottom Fade Height (px)', 'westio-child'),
+            'type'      => Controls_Manager::SLIDER,
+            'range'     => ['px' => ['min' => 60, 'max' => 500]],
+            'default'   => ['size' => 280],
+            'condition' => ['fade_bottom' => 'yes'],
             'selectors' => [
                 '{{WRAPPER}} .nm-fade' => 'height: {{SIZE}}px;',
             ],
@@ -161,10 +203,22 @@ class Westio_Child_Neighborhood_Map extends Widget_Base {
             }
         }
 
-        $fade_color = !empty($settings['fade_color']) ? $settings['fade_color'] : '#f5f1e8';
+        $fade_color  = !empty($settings['fade_color']) ? $settings['fade_color'] : '#f5f1e8';
+        $mobile_url  = !empty($settings['bg_image_mobile']['url']) ? $settings['bg_image_mobile']['url'] : '';
+        $show_top    = $settings['fade_top'] === 'yes';
+        $show_bottom = $settings['fade_bottom'] === 'yes';
         ?>
         <div class="nm-map" style="--nm-ar: <?php echo esc_attr($ratio); ?>; --nm-fade-color: <?php echo esc_attr($fade_color); ?>;">
-            <img class="nm-bg" src="<?php echo esc_url($bg_url); ?>" alt="">
+            <picture>
+                <?php if ($mobile_url) : ?>
+                    <source media="(max-width: 767px)" srcset="<?php echo esc_url($mobile_url); ?>">
+                <?php endif; ?>
+                <img class="nm-bg" src="<?php echo esc_url($bg_url); ?>" alt="">
+            </picture>
+
+            <?php if ($show_top) : ?>
+                <div class="nm-fade-top" aria-hidden="true"></div>
+            <?php endif; ?>
 
             <?php if (!empty($settings['eyebrow']) || !empty($settings['heading'])) : ?>
                 <div class="nm-header">
@@ -197,7 +251,9 @@ class Westio_Child_Neighborhood_Map extends Widget_Base {
                 </div>
             <?php endforeach; ?>
 
-            <div class="nm-fade" aria-hidden="true"></div>
+            <?php if ($show_bottom) : ?>
+                <div class="nm-fade" aria-hidden="true"></div>
+            <?php endif; ?>
         </div>
         <?php
     }
