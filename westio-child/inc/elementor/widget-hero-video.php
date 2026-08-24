@@ -38,12 +38,19 @@ class Westio_Child_Hero_Video extends Widget_Base {
             'label' => esc_html__('Video', 'westio-child'),
         ]);
         $this->add_control('video', [
-            'label'      => esc_html__('Video File', 'westio-child'),
+            'label'      => esc_html__('Video File (Desktop)', 'westio-child'),
             'type'       => Controls_Manager::MEDIA,
             'media_type' => 'video',
             'default'    => [
                 'url' => get_stylesheet_directory_uri() . '/assets/videos/hero-intro.mp4',
             ],
+        ]);
+        $this->add_control('video_mobile', [
+            'label'       => esc_html__('Video File (Mobile)', 'westio-child'),
+            'type'        => Controls_Manager::MEDIA,
+            'media_type'  => 'video',
+            'default'     => [],
+            'description' => esc_html__('Optional — a shorter/lower-bitrate export loads much faster on cellular. Falls back to the desktop video if left empty.', 'westio-child'),
         ]);
         $this->add_control('poster', [
             'label'       => esc_html__('Poster Image', 'westio-child'),
@@ -139,6 +146,7 @@ class Westio_Child_Hero_Video extends Widget_Base {
         $settings = $this->get_settings_for_display();
 
         $video_url  = !empty($settings['video']['url']) ? $settings['video']['url'] : get_stylesheet_directory_uri() . '/assets/videos/hero-intro.mp4';
+        $video_mobile_url = !empty($settings['video_mobile']['url']) ? $settings['video_mobile']['url'] : '';
         $poster_url = !empty($settings['poster']['url']) ? $settings['poster']['url'] : get_stylesheet_directory_uri() . '/assets/images/hero-intro-poster.jpg';
         $play_on_mobile = $settings['play_on_mobile'] === 'yes';
 
@@ -156,6 +164,9 @@ class Westio_Child_Hero_Video extends Widget_Base {
         $this->add_render_attribute('wrapper', 'class', 'hv-hero');
         $this->add_render_attribute('wrapper', 'data-play-mobile', $play_on_mobile ? '1' : '0');
         $this->add_render_attribute('wrapper', 'data-video', esc_url($video_url));
+        if ($video_mobile_url) {
+            $this->add_render_attribute('wrapper', 'data-video-mobile', esc_url($video_mobile_url));
+        }
         $this->add_render_attribute('wrapper', 'style', '--hv-ar: ' . esc_attr($ratio) . ';');
         ?>
         <div <?php echo $this->get_render_attribute_string('wrapper'); ?>>

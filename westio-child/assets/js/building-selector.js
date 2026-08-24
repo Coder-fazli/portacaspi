@@ -66,7 +66,7 @@
         document.querySelectorAll('.wb-selector').forEach(initSelector);
     });
 
-    if (window.elementorFrontend) {
+    if (window.elementorFrontend && window.elementorFrontend.hooks) {
         window.elementorFrontend.hooks.addAction('frontend/element_ready/westio-child-building-selector.default', function ($scope) {
             initSelector($scope[0].querySelector('.wb-selector'));
         });

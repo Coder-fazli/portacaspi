@@ -101,13 +101,30 @@
         requestAnimationFrame(step);
     }
 
+    // SplitText measures character widths to build its spans — calling it
+    // before the custom web font has loaded measures the fallback font
+    // instead, and the split never re-runs once the real font swaps in
+    // (font-display: swap), leaving characters positioned for the wrong
+    // font. Wait for fonts first.
+    function whenFontsReady(cb) {
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(cb);
+        } else {
+            cb();
+        }
+    }
+
     $(document).ready(function () {
-        splitButtonText(document);
+        whenFontsReady(function () {
+            splitButtonText(document);
+        });
     });
 
     $(window).on("elementor/frontend/init", function () {
         elementorFrontend.hooks.addAction("frontend/element_ready/global", function ($scope) {
-            splitButtonText($scope);
+            whenFontsReady(function () {
+                splitButtonText($scope);
+            });
         });
     });
 })(jQuery);

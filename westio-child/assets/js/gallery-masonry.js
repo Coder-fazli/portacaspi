@@ -134,7 +134,7 @@
         });
     });
 
-    if (window.elementorFrontend) {
+    if (window.elementorFrontend && window.elementorFrontend.hooks) {
         window.elementorFrontend.hooks.addAction('frontend/element_ready/westio-child-gallery-masonry.default', function ($scope) {
             var lightbox = initLightbox();
             initGallery($scope[0].querySelector('.gm-wrap'), lightbox);

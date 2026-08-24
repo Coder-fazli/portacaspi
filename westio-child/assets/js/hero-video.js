@@ -21,7 +21,8 @@
         }
 
         var playOnMobile = root.getAttribute('data-play-mobile') === '1';
-        var videoUrl = root.getAttribute('data-video');
+        var mobileVideoUrl = root.getAttribute('data-video-mobile');
+        var videoUrl = (isMobile() && mobileVideoUrl) ? mobileVideoUrl : root.getAttribute('data-video');
 
         function allowedToPlay() {
             if (prefersReducedMotion()) {
@@ -52,7 +53,13 @@
             }
         }
 
-        video.addEventListener('playing', function () {
+        // Reveal on 'canplay' rather than 'playing': 'playing' fires the
+        // instant playback starts, even with almost nothing buffered. On a
+        // slow connection that means the video appears and then visibly
+        // catches up/stutters as more of the file streams in — waiting for
+        // 'canplay' (browser judges it has enough buffered to proceed)
+        // gives a clean poster-to-video swap instead.
+        video.addEventListener('canplay', function () {
             root.classList.add('hv-playing');
         });
 
@@ -99,7 +106,7 @@
         document.querySelectorAll('.hv-hero').forEach(initHero);
     });
 
-    if (window.elementorFrontend) {
+    if (window.elementorFrontend && window.elementorFrontend.hooks) {
         window.elementorFrontend.hooks.addAction('frontend/element_ready/westio-child-hero-video.default', function ($scope) {
             initHero($scope[0].querySelector('.hv-hero'));
         });
