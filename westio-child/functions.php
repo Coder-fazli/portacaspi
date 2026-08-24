@@ -54,12 +54,22 @@ add_action('elementor/frontend/after_register_scripts', function () {
         [],
         file_exists($gallery_css_path) ? filemtime($gallery_css_path) : '1.0.0'
     );
+
+    $neighborhood_css_path = get_stylesheet_directory() . '/assets/css/neighborhood-map.css';
+
+    wp_register_style(
+        'westio-child-neighborhood-map',
+        get_stylesheet_directory_uri() . '/assets/css/neighborhood-map.css',
+        [],
+        file_exists($neighborhood_css_path) ? filemtime($neighborhood_css_path) : '1.0.0'
+    );
 });
 
 add_action('elementor/widgets/register', function ($widgets_manager) {
     require_once get_stylesheet_directory() . '/inc/elementor/widget-building-selector.php';
     require_once get_stylesheet_directory() . '/inc/elementor/widget-hero-video.php';
     require_once get_stylesheet_directory() . '/inc/elementor/widget-gallery-masonry.php';
+    require_once get_stylesheet_directory() . '/inc/elementor/widget-neighborhood-map.php';
 });
 
 add_action('wp_enqueue_scripts', function () {

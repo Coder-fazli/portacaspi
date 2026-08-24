@@ -1,0 +1,159 @@
+.nm-map {
+    position: relative;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    aspect-ratio: var(--nm-ar, 1714 / 900);
+    overflow: hidden;
+    background: #0d2438;
+}
+
+.nm-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ---------- Header: eyebrow + heading, soft glow behind for legibility ---------- */
+.nm-header {
+    position: absolute;
+    top: 12%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    width: min(90%, 900px);
+    text-align: center;
+    padding: 48px 32px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, .55) 0%, rgba(255, 255, 255, 0) 72%);
+}
+
+.nm-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: #7a7266;
+    margin-bottom: 16px;
+}
+
+.nm-eyebrow-mark {
+    width: 14px;
+    height: 14px;
+    color: #d9a26d;
+}
+
+.nm-heading {
+    margin: 0;
+    font-weight: 300;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    font-size: clamp(28px, 4.5vw, 52px);
+    line-height: 1.25;
+    color: #0d2438;
+}
+
+/* ---------- Pins ---------- */
+.nm-pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+.nm-pin-dot {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #d9a26d;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, .18), 0 0 0 16px rgba(255, 255, 255, .1);
+    animation: nm-pulse 2.8s ease-in-out infinite;
+}
+
+.nm-pin-highlight .nm-pin-dot {
+    background: #fff;
+    box-shadow: 0 0 0 8px rgba(217, 162, 109, .35), 0 0 0 16px rgba(217, 162, 109, .18);
+}
+
+@keyframes nm-pulse {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(255, 255, 255, .18), 0 0 0 16px rgba(255, 255, 255, .1); }
+    50% { box-shadow: 0 0 0 10px rgba(255, 255, 255, .12), 0 0 0 20px rgba(255, 255, 255, .06); }
+}
+
+.nm-pin-line {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-left: 1px dashed rgba(255, 255, 255, .7);
+    width: 0;
+}
+
+.nm-pin-label {
+    position: absolute;
+    left: 50%;
+    display: inline-block;
+    white-space: nowrap;
+    padding: 8px 14px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .92);
+    color: #0d2438;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .12);
+}
+
+.nm-pin-highlight .nm-pin-label {
+    background: rgba(13, 36, 56, .82);
+    color: #fff;
+}
+
+/* Label placement + connector line, per side */
+.nm-label-bottom .nm-pin-line { top: 8px; height: 22px; transform: translateX(-50%); }
+.nm-label-bottom .nm-pin-label { top: 34px; transform: translateX(-50%); }
+
+.nm-label-top .nm-pin-line { top: -30px; height: 22px; transform: translateX(-50%); }
+.nm-label-top .nm-pin-label { top: -34px; transform: translate(-50%, -100%); }
+
+.nm-label-left .nm-pin-line { left: -30px; top: 0; height: 1px; width: 22px; border-left: 0; border-top: 1px dashed rgba(255, 255, 255, .7); }
+.nm-label-left .nm-pin-label { left: -38px; top: 0; transform: translate(-100%, -50%); }
+
+.nm-label-right .nm-pin-line { left: 8px; top: 0; height: 1px; width: 22px; border-left: 0; border-top: 1px dashed rgba(255, 255, 255, .7); }
+.nm-label-right .nm-pin-label { left: 38px; top: 0; transform: translateY(-50%); }
+
+/* ---------- Bottom fade: dissolves the photo into the page background ---------- */
+.nm-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--nm-fade-color, #f5f1e8) 100%);
+}
+
+@media (max-width: 767px) {
+    .nm-map {
+        aspect-ratio: auto;
+        height: var(--nm-mobile-h, 90vh);
+    }
+
+    .nm-header {
+        top: 8%;
+        padding: 28px 20px;
+    }
+
+    .nm-eyebrow {
+        font-size: 11px;
+    }
+
+    .nm-pin-label {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
