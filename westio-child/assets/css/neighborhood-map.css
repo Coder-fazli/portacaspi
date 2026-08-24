@@ -24,7 +24,7 @@
 /* ---------- Header: eyebrow + heading, soft glow behind for legibility ---------- */
 .nm-header {
     position: absolute;
-    top: 12%;
+    top: var(--nm-header-top, 12%);
     left: 50%;
     transform: translateX(-50%);
     z-index: 2;

@@ -72,6 +72,16 @@ class Westio_Child_Neighborhood_Map extends Widget_Base {
                 'font_weight' => ['default' => '700'],
             ],
         ]);
+        $this->add_control('header_position', [
+            'label'       => esc_html__('Header Block Position (from top, %)', 'westio-child'),
+            'type'        => Controls_Manager::SLIDER,
+            'range'       => ['%' => ['min' => 0, 'max' => 50]],
+            'default'     => ['unit' => '%', 'size' => 8],
+            'description' => esc_html__('Moves the eyebrow + heading block as one unit — use this if it overlaps a pin below it.', 'westio-child'),
+            'selectors'   => [
+                '{{WRAPPER}} .nm-header' => '--nm-header-top: {{SIZE}}{{UNIT}};',
+            ],
+        ]);
         $this->end_controls_section();
 
         $this->start_controls_section('section_pins', [
