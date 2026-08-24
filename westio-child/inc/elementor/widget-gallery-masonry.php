@@ -143,10 +143,6 @@ class Westio_Child_Gallery_Masonry extends Widget_Base {
             </button>
             <figure class="gm-lightbox-figure">
                 <img class="gm-lightbox-img" src="" alt="">
-                <figcaption class="gm-lightbox-caption">
-                    <span class="gm-lightbox-title"></span>
-                    <span class="gm-lightbox-desc"></span>
-                </figcaption>
             </figure>
         </div>
         <?php

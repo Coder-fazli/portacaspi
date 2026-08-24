@@ -33,8 +33,6 @@
             return;
         }
         lightbox.querySelector('.gm-lightbox-img').src = item.getAttribute('data-full') || '';
-        lightbox.querySelector('.gm-lightbox-title').textContent = item.getAttribute('data-title') || '';
-        lightbox.querySelector('.gm-lightbox-desc').textContent = item.getAttribute('data-desc') || '';
         lightbox.classList.add('is-open');
         document.body.classList.add('gm-lock-scroll');
     }
