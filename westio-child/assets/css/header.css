@@ -1,6 +1,16 @@
 /* Custom header additions — inherits Westio's header-1 layout,
    styles only the new right-side elements. */
 
+/* The parent theme's floating "scroll to top" button (.scrollup, fixed
+   bottom:30/right:30, 48x48, nearly-square) sits almost exactly on top of
+   the Contact Bubble plugin's toggle button (fixed bottom:24/right:24,
+   60x60, circular) — the square button's corners poke out past the
+   circle's curve, showing as odd khaki shapes behind it. Move it above
+   the chat bubble instead of overlapping it. */
+.scrollup {
+    bottom: 100px;
+}
+
 /* The theme's default header has a 1px solid border-bottom (.header-1 in
    the parent theme's style.css) — a stark white/gray line. Soften it to
    something minimal instead. */
