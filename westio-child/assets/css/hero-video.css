@@ -56,6 +56,10 @@
     overflow: hidden;
 }
 
+.hv-hero picture {
+    display: contents;
+}
+
 .hv-poster,
 .hv-video {
     position: absolute;

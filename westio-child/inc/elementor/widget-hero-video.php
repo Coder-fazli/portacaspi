@@ -53,12 +53,18 @@ class Westio_Child_Hero_Video extends Widget_Base {
             'description' => esc_html__('Optional — a shorter/lower-bitrate export loads much faster on cellular. Falls back to the desktop video if left empty.', 'westio-child'),
         ]);
         $this->add_control('poster', [
-            'label'       => esc_html__('Poster Image', 'westio-child'),
+            'label'       => esc_html__('Poster Image (Desktop)', 'westio-child'),
             'type'        => Controls_Manager::MEDIA,
             'description' => esc_html__('Shown instantly while the video loads, and instead of the video on mobile if disabled below. Keep this small (under ~150kb) — it is what visitors see first.', 'westio-child'),
             'default'     => [
                 'url' => get_stylesheet_directory_uri() . '/assets/images/hero-intro-poster.jpg',
             ],
+        ]);
+        $this->add_control('poster_mobile', [
+            'label'       => esc_html__('Poster Image (Mobile)', 'westio-child'),
+            'type'        => Controls_Manager::MEDIA,
+            'default'     => [],
+            'description' => esc_html__('Optional — a tighter portrait crop reads better on phones than a wide landscape frame. Falls back to the desktop poster if left empty.', 'westio-child'),
         ]);
         $this->end_controls_section();
 
@@ -145,9 +151,15 @@ class Westio_Child_Hero_Video extends Widget_Base {
     protected function render() {
         $settings = $this->get_settings_for_display();
 
-        $video_url  = !empty($settings['video']['url']) ? $settings['video']['url'] : get_stylesheet_directory_uri() . '/assets/videos/hero-intro.mp4';
+        // Elementor's control 'default' already supplies the bundled sample
+        // video/poster the first time this widget is dropped on a page — do
+        // NOT re-substitute it here too. Doing so made it impossible to tell
+        // "never configured" apart from "admin explicitly cleared this
+        // field", so clearing either field appeared to do nothing.
+        $video_url  = !empty($settings['video']['url']) ? $settings['video']['url'] : '';
         $video_mobile_url = !empty($settings['video_mobile']['url']) ? $settings['video_mobile']['url'] : '';
-        $poster_url = !empty($settings['poster']['url']) ? $settings['poster']['url'] : get_stylesheet_directory_uri() . '/assets/images/hero-intro-poster.jpg';
+        $poster_url = !empty($settings['poster']['url']) ? $settings['poster']['url'] : '';
+        $poster_mobile_url = !empty($settings['poster_mobile']['url']) ? $settings['poster_mobile']['url'] : '';
         $play_on_mobile = $settings['play_on_mobile'] === 'yes';
 
         // Desktop box follows the poster's real aspect ratio (defaults to the
@@ -163,15 +175,26 @@ class Westio_Child_Hero_Video extends Widget_Base {
 
         $this->add_render_attribute('wrapper', 'class', 'hv-hero');
         $this->add_render_attribute('wrapper', 'data-play-mobile', $play_on_mobile ? '1' : '0');
-        $this->add_render_attribute('wrapper', 'data-video', esc_url($video_url));
+        if ($video_url) {
+            $this->add_render_attribute('wrapper', 'data-video', esc_url($video_url));
+        }
         if ($video_mobile_url) {
             $this->add_render_attribute('wrapper', 'data-video-mobile', esc_url($video_mobile_url));
         }
         $this->add_render_attribute('wrapper', 'style', '--hv-ar: ' . esc_attr($ratio) . ';');
         ?>
         <div <?php echo $this->get_render_attribute_string('wrapper'); ?>>
-            <img class="hv-poster" src="<?php echo esc_url($poster_url); ?>" alt="" fetchpriority="high">
-            <video class="hv-video" muted loop playsinline preload="none" poster="<?php echo esc_url($poster_url); ?>"></video>
+            <?php if ($poster_url) : ?>
+                <picture>
+                    <?php if ($poster_mobile_url) : ?>
+                        <source media="(max-width: 767px)" srcset="<?php echo esc_url($poster_mobile_url); ?>">
+                    <?php endif; ?>
+                    <img class="hv-poster" src="<?php echo esc_url($poster_url); ?>" alt="" fetchpriority="high">
+                </picture>
+            <?php endif; ?>
+            <?php if ($video_url) : ?>
+                <video class="hv-video" muted loop playsinline preload="none" poster="<?php echo esc_url($poster_url); ?>"></video>
+            <?php endif; ?>
             <div class="hv-shade" aria-hidden="true"></div>
 
             <?php if (!empty($settings['heading']) || !empty($settings['subheading']) || !empty($settings['button_text'])) : ?>

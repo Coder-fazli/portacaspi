@@ -15,8 +15,17 @@
         }
         root.dataset.hvInit = '1';
 
+        var scrollCue = root.querySelector('.hv-scroll-cue');
+        if (scrollCue) {
+            scrollCue.addEventListener('click', function () {
+                var y = root.getBoundingClientRect().bottom + window.scrollY;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            });
+        }
+
         var video = root.querySelector('.hv-video');
         if (!video) {
+            // Poster-only (or fully empty) hero — nothing left to wire up.
             return;
         }
 
@@ -62,14 +71,6 @@
         video.addEventListener('canplay', function () {
             root.classList.add('hv-playing');
         });
-
-        var scrollCue = root.querySelector('.hv-scroll-cue');
-        if (scrollCue) {
-            scrollCue.addEventListener('click', function () {
-                var y = root.getBoundingClientRect().bottom + window.scrollY;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-            });
-        }
 
         // Gate loading on an IntersectionObserver rather than a fixed delay:
         // a hero is on screen immediately, so this fires right away instead
