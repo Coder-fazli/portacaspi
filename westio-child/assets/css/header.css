@@ -17,6 +17,18 @@ html, body {
     overflow-x: hidden;
 }
 
+/* Hide the native vertical scrollbar track for a cleaner look — scrolling
+   itself still works exactly the same via wheel/trackpad/keyboard, this
+   only removes the visible bar. */
+html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
 /* The parent theme's floating "scroll to top" button (.scrollup, fixed
    bottom:30/right:30, 48x48, nearly-square) sits almost exactly on top of
    the Contact Bubble plugin's toggle button (fixed bottom:24/right:24,
