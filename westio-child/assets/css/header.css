@@ -1,6 +1,22 @@
 /* Custom header additions — inherits Westio's header-1 layout,
    styles only the new right-side elements. */
 
+/* Several widgets (Hero Video, Gallery Masonry, Neighborhood Map)
+   full-bleed via `width:100vw; margin-left:calc(50% - 50vw)` to break out
+   of Elementor's boxed content width. 100vw measures the whole viewport
+   INCLUDING the scrollbar's own width, but the page's normal %-based
+   layout doesn't — on systems where the browser reserves visible space
+   for a scrollbar (mostly Windows; varies by browser/OS) that mismatch
+   overshoots the real edge by the scrollbar's width, showing as an
+   inconsistent white gap on the right (and sometimes forcing a bottom
+   horizontal scrollbar too). Clip the harmless overshoot at the page
+   level instead of reworking every widget's math — this doesn't affect
+   any element's own internal scrolling (e.g. the gallery's horizontal
+   drag track), only the page's outer scroll container. */
+html, body {
+    overflow-x: hidden;
+}
+
 /* The parent theme's floating "scroll to top" button (.scrollup, fixed
    bottom:30/right:30, 48x48, nearly-square) sits almost exactly on top of
    the Contact Bubble plugin's toggle button (fixed bottom:24/right:24,
