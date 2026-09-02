@@ -87,27 +87,12 @@ class Westio_Child_Gallery_Masonry extends Widget_Base {
                             if (!$thumb) {
                                 continue;
                             }
-                            // Captions come from the attachment's own Title/Caption
-                            // fields, not a form field here — keeps adding 50+
-                            // photos a single bulk selection instead of per-item entry.
+                            // Title used only for the img's alt text (accessibility) —
+                            // no longer shown visually, on hover or in the lightbox.
                             $title = $id ? get_the_title($id) : '';
-                            $desc  = $id ? wp_get_attachment_caption($id) : '';
                             ?>
-                            <button type="button" class="gm-item"
-                                data-full="<?php echo esc_url($full); ?>"
-                                data-title="<?php echo esc_attr($title); ?>"
-                                data-desc="<?php echo esc_attr($desc); ?>">
+                            <button type="button" class="gm-item" data-full="<?php echo esc_url($full); ?>">
                                 <img src="<?php echo esc_url($thumb); ?>" alt="<?php echo esc_attr($title); ?>" loading="lazy" draggable="false">
-                                <?php if ($title || $desc) : ?>
-                                    <span class="gm-item-overlay">
-                                        <?php if ($title) : ?>
-                                            <span class="gm-item-title"><?php echo esc_html($title); ?></span>
-                                        <?php endif; ?>
-                                        <?php if ($desc) : ?>
-                                            <span class="gm-item-desc"><?php echo esc_html($desc); ?></span>
-                                        <?php endif; ?>
-                                    </span>
-                                <?php endif; ?>
                             </button>
                         <?php endforeach;
                     else :
