@@ -94,7 +94,7 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    border-left: 1px dashed rgba(255, 255, 255, .7);
+    border-left: 1px dashed rgba(255, 255, 255, .35);
     width: 0;
 }
 
@@ -124,10 +124,10 @@
 .nm-label-top .nm-pin-line { top: -30px; height: 22px; transform: translateX(-50%); }
 .nm-label-top .nm-pin-label { top: -34px; transform: translate(-50%, -100%); }
 
-.nm-label-left .nm-pin-line { left: -30px; top: 0; height: 1px; width: 22px; border-left: 0; border-top: 1px dashed rgba(255, 255, 255, .7); }
+.nm-label-left .nm-pin-line { left: -30px; top: 0; height: 1px; width: 22px; border-left: 0; border-top: 1px dashed rgba(255, 255, 255, .35); }
 .nm-label-left .nm-pin-label { left: -38px; top: 0; transform: translate(-100%, -50%); }
 
-.nm-label-right .nm-pin-line { left: 8px; top: 0; height: 1px; width: 22px; border-left: 0; border-top: 1px dashed rgba(255, 255, 255, .7); }
+.nm-label-right .nm-pin-line { left: 8px; top: 0; height: 1px; width: 22px; border-left: 0; border-top: 1px dashed rgba(255, 255, 255, .35); }
 .nm-label-right .nm-pin-label { left: 38px; top: 0; transform: translateY(-50%); }
 
 /* ---------- Top/bottom fades: dissolve the photo into the page background
