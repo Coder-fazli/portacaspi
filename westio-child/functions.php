@@ -63,6 +63,15 @@ add_action('elementor/frontend/after_register_scripts', function () {
         [],
         file_exists($neighborhood_css_path) ? filemtime($neighborhood_css_path) : '1.0.0'
     );
+
+    $success_css_path = get_stylesheet_directory() . '/assets/css/success-message.css';
+
+    wp_register_style(
+        'westio-child-success-message',
+        get_stylesheet_directory_uri() . '/assets/css/success-message.css',
+        [],
+        file_exists($success_css_path) ? filemtime($success_css_path) : '1.0.0'
+    );
 });
 
 add_action('elementor/widgets/register', function ($widgets_manager) {
@@ -70,6 +79,7 @@ add_action('elementor/widgets/register', function ($widgets_manager) {
     require_once get_stylesheet_directory() . '/inc/elementor/widget-hero-video.php';
     require_once get_stylesheet_directory() . '/inc/elementor/widget-gallery-masonry.php';
     require_once get_stylesheet_directory() . '/inc/elementor/widget-neighborhood-map.php';
+    require_once get_stylesheet_directory() . '/inc/elementor/widget-success-message.php';
 });
 
 add_action('wp_enqueue_scripts', function () {
@@ -116,6 +126,17 @@ add_action('wp_enqueue_scripts', function () {
         get_stylesheet_directory_uri() . '/assets/css/footer.css',
         [],
         file_exists($footer_path) ? filemtime($footer_path) : '1.0.0'
+    );
+
+    // Redirects to the matching language's success page after any Contact
+    // Form 7 submission on the page — see assets/js/contact-redirect.js.
+    $redirect_path = get_stylesheet_directory() . '/assets/js/contact-redirect.js';
+    wp_enqueue_script(
+        'westio-child-contact-redirect',
+        get_stylesheet_directory_uri() . '/assets/js/contact-redirect.js',
+        [],
+        file_exists($redirect_path) ? filemtime($redirect_path) : '1.0.0',
+        true
     );
 }, 20);
 
