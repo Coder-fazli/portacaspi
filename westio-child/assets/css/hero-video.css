@@ -54,6 +54,9 @@
        floor keeps it substantial without going back to a fixed 100vh. */
     min-height: 95vh;
     overflow: hidden;
+    /* Safety net for the split-second before the poster paints — a
+       branded dark tone instead of blank white/page background. */
+    background: #0d2438;
 }
 
 .hv-hero picture {

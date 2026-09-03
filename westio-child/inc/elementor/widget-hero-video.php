@@ -228,7 +228,7 @@ class Westio_Child_Hero_Video extends Widget_Base {
                 <video class="hv-video" muted loop playsinline preload="none" poster="<?php echo esc_url($poster_url); ?>"></video>
             <?php endif; ?>
             <?php if ($watermark_url) : ?>
-                <img class="hv-watermark" src="<?php echo esc_url($watermark_url); ?>" alt="" aria-hidden="true">
+                <img class="hv-watermark" src="<?php echo esc_url($watermark_url); ?>" alt="" aria-hidden="true" fetchpriority="low" loading="lazy">
             <?php endif; ?>
             <div class="hv-shade" aria-hidden="true"></div>
 
