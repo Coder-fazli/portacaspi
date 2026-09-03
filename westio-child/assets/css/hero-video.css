@@ -54,9 +54,9 @@
        floor keeps it substantial without going back to a fixed 100vh. */
     min-height: 95vh;
     overflow: hidden;
-    /* Safety net for the split-second before the poster paints — a
-       branded dark tone instead of blank white/page background. */
-    background: #0d2438;
+    /* Safety net for the split-second before the poster paints — plain
+       black instead of blank white/page background. */
+    background: #000;
 }
 
 .hv-hero picture {
@@ -101,9 +101,17 @@
     transform: translate(-50%, -50%);
     width: 55%;
     max-width: 900px;
-    opacity: 12%;
     pointer-events: none;
     user-select: none;
+    /* Hidden until JS confirms the poster has actually loaded (see
+       hero-video.js) — a fetch-priority hint alone doesn't guarantee the
+       browser paints the poster first, this does. */
+    opacity: 0;
+    transition: opacity .5s ease;
+}
+
+.hv-hero.hv-watermark-ready .hv-watermark {
+    opacity: var(--hv-watermark-opacity, 12%);
 }
 
 /* Soft top-only scrim so the header/heading stay legible over a bright sky —

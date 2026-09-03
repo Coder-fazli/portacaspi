@@ -85,7 +85,7 @@ class Westio_Child_Hero_Video extends Widget_Base {
             'range'   => ['%' => ['min' => 2, 'max' => 60]],
             'default' => ['unit' => '%', 'size' => 12],
             'selectors' => [
-                '{{WRAPPER}} .hv-watermark' => 'opacity: {{SIZE}}%;',
+                '{{WRAPPER}} .hv-watermark' => '--hv-watermark-opacity: {{SIZE}}%;',
             ],
         ]);
         $this->add_control('watermark_width', [

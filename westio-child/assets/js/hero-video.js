@@ -23,6 +23,22 @@
             });
         }
 
+        // Watermark starts at opacity 0 (see hero-video.css) and only
+        // reveals once the poster has actually finished loading — a
+        // fetchpriority hint makes it likely the poster wins the race, but
+        // doesn't guarantee it; this does.
+        var watermark = root.querySelector('.hv-watermark');
+        if (watermark) {
+            var poster = root.querySelector('.hv-poster');
+            if (!poster || poster.complete) {
+                root.classList.add('hv-watermark-ready');
+            } else {
+                poster.addEventListener('load', function () {
+                    root.classList.add('hv-watermark-ready');
+                });
+            }
+        }
+
         var video = root.querySelector('.hv-video');
         if (!video) {
             // Poster-only (or fully empty) hero — nothing left to wire up.
