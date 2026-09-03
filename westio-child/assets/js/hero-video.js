@@ -27,7 +27,7 @@
         // reveals once the poster has actually finished loading — a
         // fetchpriority hint makes it likely the poster wins the race, but
         // doesn't guarantee it; this does.
-        var watermark = root.querySelector('.hv-watermark');
+        var watermark = root.querySelector('.hv-watermark, .hv-watermark-cutout');
         if (watermark) {
             var poster = root.querySelector('.hv-poster');
             if (!poster || poster.complete) {

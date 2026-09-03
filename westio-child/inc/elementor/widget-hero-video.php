@@ -79,13 +79,35 @@ class Westio_Child_Hero_Video extends Widget_Base {
             ],
             'description' => esc_html__('A large, faint logo overlaid across the whole video — not a small corner badge. Use a transparent PNG. Leave empty to turn it off.', 'westio-child'),
         ]);
+        $this->add_control('watermark_style', [
+            'label'       => esc_html__('Style', 'westio-child'),
+            'type'        => Controls_Manager::SELECT,
+            'options'     => [
+                'cutout' => esc_html__('Cutout — spotlight through a dark overlay', 'westio-child'),
+                'simple' => esc_html__('Simple — flat low-opacity logo', 'westio-child'),
+            ],
+            'default'     => 'cutout',
+            'description' => esc_html__('Cutout dims the whole video except the logo shape, so it reads as glowing in the video\'s own colors — no flat sticker look.', 'westio-child'),
+        ]);
         $this->add_control('watermark_opacity', [
-            'label'   => esc_html__('Opacity (%)', 'westio-child'),
-            'type'    => Controls_Manager::SLIDER,
-            'range'   => ['%' => ['min' => 2, 'max' => 60]],
-            'default' => ['unit' => '%', 'size' => 12],
+            'label'     => esc_html__('Opacity (%)', 'westio-child'),
+            'type'      => Controls_Manager::SLIDER,
+            'range'     => ['%' => ['min' => 2, 'max' => 60]],
+            'default'   => ['unit' => '%', 'size' => 12],
+            'condition' => ['watermark_style' => 'simple'],
             'selectors' => [
                 '{{WRAPPER}} .hv-watermark' => '--hv-watermark-opacity: {{SIZE}}%;',
+            ],
+        ]);
+        $this->add_control('watermark_dim', [
+            'label'     => esc_html__('Dim Amount (%)', 'westio-child'),
+            'type'      => Controls_Manager::SLIDER,
+            'range'     => ['%' => ['min' => 10, 'max' => 90]],
+            'default'   => ['unit' => '%', 'size' => 60],
+            'condition' => ['watermark_style' => 'cutout'],
+            'description' => esc_html__('How much the video darkens outside the logo shape.', 'westio-child'),
+            'selectors' => [
+                '{{WRAPPER}} .hv-watermark-cutout' => '--hv-watermark-dim: {{SIZE}}%;',
             ],
         ]);
         $this->add_control('watermark_width', [
@@ -95,6 +117,7 @@ class Westio_Child_Hero_Video extends Widget_Base {
             'default' => ['unit' => '%', 'size' => 55],
             'selectors' => [
                 '{{WRAPPER}} .hv-watermark' => 'width: {{SIZE}}%;',
+                '{{WRAPPER}} .hv-watermark-cutout' => '--hv-watermark-width: {{SIZE}}%;',
             ],
         ]);
         $this->end_controls_section();
@@ -192,6 +215,7 @@ class Westio_Child_Hero_Video extends Widget_Base {
         $poster_url = !empty($settings['poster']['url']) ? $settings['poster']['url'] : '';
         $poster_mobile_url = !empty($settings['poster_mobile']['url']) ? $settings['poster_mobile']['url'] : '';
         $watermark_url = !empty($settings['watermark']['url']) ? $settings['watermark']['url'] : '';
+        $watermark_style = $settings['watermark_style'] === 'simple' ? 'simple' : 'cutout';
         $play_on_mobile = $settings['play_on_mobile'] === 'yes';
 
         // Desktop box follows the poster's real aspect ratio (defaults to the
@@ -227,7 +251,9 @@ class Westio_Child_Hero_Video extends Widget_Base {
             <?php if ($video_url) : ?>
                 <video class="hv-video" muted loop playsinline preload="none" poster="<?php echo esc_url($poster_url); ?>"></video>
             <?php endif; ?>
-            <?php if ($watermark_url) : ?>
+            <?php if ($watermark_url && $watermark_style === 'cutout') : ?>
+                <div class="hv-watermark-cutout" style="--hv-watermark-mask: url('<?php echo esc_url($watermark_url); ?>');" aria-hidden="true"></div>
+            <?php elseif ($watermark_url) : ?>
                 <img class="hv-watermark" src="<?php echo esc_url($watermark_url); ?>" alt="" aria-hidden="true" fetchpriority="low" loading="lazy">
             <?php endif; ?>
             <div class="hv-shade" aria-hidden="true"></div>

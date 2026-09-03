@@ -114,6 +114,37 @@
     opacity: var(--hv-watermark-opacity, 12%);
 }
 
+/* "Cutout" style: dims the whole video except the logo shape, so the logo
+   reads as glowing in the video's own true colors instead of sitting on top
+   as a flat translucent sticker. Two mask layers (the logo shape + a solid
+   full-coverage layer) combined with exclude/xor composite punch a
+   logo-shaped hole through the dark overlay. */
+.hv-watermark-cutout {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: rgba(0, 0, 0, var(--hv-watermark-dim, 60%));
+    -webkit-mask-image: var(--hv-watermark-mask), linear-gradient(#000, #000);
+    -webkit-mask-composite: xor;
+    -webkit-mask-repeat: no-repeat, repeat;
+    -webkit-mask-position: center, center;
+    -webkit-mask-size: var(--hv-watermark-width, 55%) auto, cover;
+    mask-image: var(--hv-watermark-mask), linear-gradient(#000, #000);
+    mask-composite: exclude;
+    mask-repeat: no-repeat, repeat;
+    mask-position: center, center;
+    mask-size: var(--hv-watermark-width, 55%) auto, cover;
+    /* Hidden until JS confirms the poster has loaded — same reasoning as
+       .hv-watermark above. */
+    opacity: 0;
+    transition: opacity .8s ease;
+}
+
+.hv-hero.hv-watermark-ready .hv-watermark-cutout {
+    opacity: 1;
+}
+
 /* Soft top-only scrim so the header/heading stay legible over a bright sky —
    deliberately does not darken the bottom of the frame. */
 .hv-shade {
