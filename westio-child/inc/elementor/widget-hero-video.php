@@ -68,6 +68,37 @@ class Westio_Child_Hero_Video extends Widget_Base {
         ]);
         $this->end_controls_section();
 
+        $this->start_controls_section('section_watermark', [
+            'label' => esc_html__('Logo Watermark', 'westio-child'),
+        ]);
+        $this->add_control('watermark', [
+            'label'       => esc_html__('Watermark Logo', 'westio-child'),
+            'type'        => Controls_Manager::MEDIA,
+            'default'     => [
+                'url' => get_stylesheet_directory_uri() . '/assets/images/logo-watermark.png',
+            ],
+            'description' => esc_html__('A large, faint logo overlaid across the whole video — not a small corner badge. Use a transparent PNG. Leave empty to turn it off.', 'westio-child'),
+        ]);
+        $this->add_control('watermark_opacity', [
+            'label'   => esc_html__('Opacity (%)', 'westio-child'),
+            'type'    => Controls_Manager::SLIDER,
+            'range'   => ['%' => ['min' => 2, 'max' => 60]],
+            'default' => ['unit' => '%', 'size' => 12],
+            'selectors' => [
+                '{{WRAPPER}} .hv-watermark' => 'opacity: {{SIZE}}%;',
+            ],
+        ]);
+        $this->add_control('watermark_width', [
+            'label'   => esc_html__('Width (% of hero)', 'westio-child'),
+            'type'    => Controls_Manager::SLIDER,
+            'range'   => ['%' => ['min' => 15, 'max' => 100]],
+            'default' => ['unit' => '%', 'size' => 55],
+            'selectors' => [
+                '{{WRAPPER}} .hv-watermark' => 'width: {{SIZE}}%;',
+            ],
+        ]);
+        $this->end_controls_section();
+
         $this->start_controls_section('section_content', [
             'label' => esc_html__('Content', 'westio-child'),
         ]);
@@ -160,6 +191,7 @@ class Westio_Child_Hero_Video extends Widget_Base {
         $video_mobile_url = !empty($settings['video_mobile']['url']) ? $settings['video_mobile']['url'] : '';
         $poster_url = !empty($settings['poster']['url']) ? $settings['poster']['url'] : '';
         $poster_mobile_url = !empty($settings['poster_mobile']['url']) ? $settings['poster_mobile']['url'] : '';
+        $watermark_url = !empty($settings['watermark']['url']) ? $settings['watermark']['url'] : '';
         $play_on_mobile = $settings['play_on_mobile'] === 'yes';
 
         // Desktop box follows the poster's real aspect ratio (defaults to the
@@ -194,6 +226,9 @@ class Westio_Child_Hero_Video extends Widget_Base {
             <?php endif; ?>
             <?php if ($video_url) : ?>
                 <video class="hv-video" muted loop playsinline preload="none" poster="<?php echo esc_url($poster_url); ?>"></video>
+            <?php endif; ?>
+            <?php if ($watermark_url) : ?>
+                <img class="hv-watermark" src="<?php echo esc_url($watermark_url); ?>" alt="" aria-hidden="true">
             <?php endif; ?>
             <div class="hv-shade" aria-hidden="true"></div>
 

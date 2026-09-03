@@ -87,6 +87,22 @@
     opacity: 1;
 }
 
+/* Large, faint brand mark over the whole video — not a small corner badge.
+   Sits above the video but below the shade/content so heading text always
+   stays perfectly readable regardless of watermark opacity. */
+.hv-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -50%);
+    width: 55%;
+    max-width: 900px;
+    opacity: 12%;
+    pointer-events: none;
+    user-select: none;
+}
+
 /* Soft top-only scrim so the header/heading stay legible over a bright sky —
    deliberately does not darken the bottom of the frame. */
 .hv-shade {
