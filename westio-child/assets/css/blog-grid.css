@@ -1,0 +1,37 @@
+/* 3-column masonry blog grid — CSS columns rather than a JS layout library,
+   so cards of different heights (title/excerpt length varies) stack into
+   the shortest column automatically, no reflow script needed. */
+.blog-grid-3col .elementor-grid {
+    display: block;
+    column-count: 3;
+    column-gap: 28px;
+}
+
+.blog-grid-3col .elementor-grid > article.article-default {
+    display: inline-block;
+    width: 100%;
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    margin: 0 0 28px;
+    /* The stacked-list divider doesn't make sense once cards sit side by
+       side in columns. */
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+@media (max-width: 1023px) {
+    .blog-grid-3col .elementor-grid {
+        column-count: 2;
+        column-gap: 20px;
+    }
+
+    .blog-grid-3col .elementor-grid > article.article-default {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .blog-grid-3col .elementor-grid {
+        column-count: 1;
+    }
+}

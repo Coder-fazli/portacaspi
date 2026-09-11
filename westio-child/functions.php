@@ -128,6 +128,19 @@ add_action('wp_enqueue_scripts', function () {
         file_exists($footer_path) ? filemtime($footer_path) : '1.0.0'
     );
 
+    // 3-column masonry layout for the blog listing (main blog page +
+    // category/tag archives) — not on search results, which read better
+    // as a plain list.
+    if (is_home() || (is_archive() && !is_search())) {
+        $blog_grid_path = get_stylesheet_directory() . '/assets/css/blog-grid.css';
+        wp_enqueue_style(
+            'westio-child-blog-grid',
+            get_stylesheet_directory_uri() . '/assets/css/blog-grid.css',
+            [],
+            file_exists($blog_grid_path) ? filemtime($blog_grid_path) : '1.0.0'
+        );
+    }
+
     // Redirects to the matching language's success page after any Contact
     // Form 7 submission on the page — see assets/js/contact-redirect.js.
     $redirect_path = get_stylesheet_directory() . '/assets/js/contact-redirect.js';
@@ -139,6 +152,17 @@ add_action('wp_enqueue_scripts', function () {
         true
     );
 }, 20);
+
+// Marks the blog loop wrapper for the 3-column masonry layout (see
+// assets/css/blog-grid.css) on the main blog page and category/tag
+// archives — the parent theme's westio_loop_blog filter exists exactly
+// for adding a class here, no template override needed.
+add_filter('westio_loop_blog', function ($classes) {
+    if (is_home() || (is_archive() && !is_search())) {
+        $classes[] = 'blog-grid-3col';
+    }
+    return $classes;
+});
 
 // Footer settings admin page (per-language content).
 require_once get_stylesheet_directory() . '/inc/footer-settings.php';
