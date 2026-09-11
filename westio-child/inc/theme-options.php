@@ -2,10 +2,14 @@
 /**
  * Theme Options — admin page for the few sitewide look/behavior toggles
  * that don't belong to a specific widget or to the Header & Footer page:
- *   - H1 / H2 font size for the theme's own native headings (single blog
- *     post title, and the small page-title/comments-title fallbacks) —
- *     NOT Elementor-authored page content, which keeps whatever size is
- *     set per-widget there.
+ *   - H1 / H2 font size, overriding the theme's own default tag styling
+ *     (westio/style.css `h1, .alpha` / `h2, .beta`) — this is what sizes
+ *     a plain H1/H2 typed into the block editor, or any Elementor heading
+ *     left at its default size, plus a couple of the theme's own named
+ *     headings (single post title, page-title/comments-title fallbacks)
+ *     that have their own dedicated rule. Does NOT touch a heading given
+ *     its own custom size in Elementor — that rule is always more specific
+ *     than this override.
  *   - Hide comments sitewide.
  *   - Hide the post meta line (author/date/category) above post titles.
  */
@@ -76,14 +80,14 @@ class WC_Theme_Options {
                         <th scope="row"><?php esc_html_e('H1 font size (px)', 'westio-child'); ?></th>
                         <td>
                             <input type="number" min="16" max="300" class="small-text" name="<?php echo WCTO_OPTION; ?>[h1_size]" value="<?php echo esc_attr($opt['h1_size']); ?>">
-                            <p class="description"><?php esc_html_e('The theme\'s own H1 headings: the single blog post title, and page-title fallbacks (e.g. the empty blog archive, search results). Scales down proportionally on mobile. Does not affect headings you\'ve sized yourself in Elementor.', 'westio-child'); ?></p>
+                            <p class="description"><?php esc_html_e('The theme\'s default H1 size — applies to plain H1 headings (e.g. typed into a post with the block editor) and any Elementor heading left at its default size, plus the single blog post title and page-title fallbacks (empty blog archive, search results). Does not affect a heading you\'ve given its own custom size in Elementor.', 'westio-child'); ?></p>
                         </td>
                     </tr>
                     <tr>
                         <th scope="row"><?php esc_html_e('H2 font size (px)', 'westio-child'); ?></th>
                         <td>
                             <input type="number" min="16" max="300" class="small-text" name="<?php echo WCTO_OPTION; ?>[h2_size]" value="<?php echo esc_attr($opt['h2_size']); ?>">
-                            <p class="description"><?php esc_html_e('The theme\'s own H2 headings: currently just the "Comments" section heading. Does not affect headings you\'ve sized yourself in Elementor.', 'westio-child'); ?></p>
+                            <p class="description"><?php esc_html_e('The theme\'s default H2 size — applies to plain H2 headings (e.g. typed into a post with the block editor) and any Elementor heading left at its default size, plus the "Comments" section heading. Does not affect a heading you\'ve given its own custom size in Elementor.', 'westio-child'); ?></p>
                         </td>
                     </tr>
                     <tr>
@@ -116,13 +120,23 @@ class WC_Theme_Options {
         $css = '';
 
         if ($opt['h1_size'] !== 80) {
-            $css .= '.single-post .entry-title, .page-header h1.page-title { font-size: ' . (int) $opt['h1_size'] . 'px; }';
-            $css .= '@media (max-width: 767px) { .single-post .entry-title, .page-header h1.page-title { font-size: clamp(24px, 9vw, ' . (int) $opt['h1_size'] . 'px); } }';
+            $h1 = (int) $opt['h1_size'];
+            // h1, .alpha is the theme's own generic default H1 size (westio/style.css)
+            // — governs plain content headings (Gutenberg heading blocks, Elementor
+            // headings left at their default size) that don't have a specific rule
+            // of their own. .single-post .entry-title / .page-header h1.page-title
+            // are separate, more specific theme headings with their own dedicated
+            // rule, so they need overriding too.
+            $css .= 'h1, .alpha, .single-post .entry-title, .page-header h1.page-title { font-size: ' . $h1 . 'px; }';
+            $css .= '@media (min-width: 568px) { h1, .alpha, .single-post .entry-title, .page-header h1.page-title { font-size: ' . $h1 . 'px; } }';
         }
 
         if ($opt['h2_size'] !== 50) {
-            $css .= '#comments .comments-title { font-size: ' . (int) $opt['h2_size'] . 'px; }';
-            $css .= '@media (max-width: 768px) { #comments .comments-title { font-size: clamp(20px, 6vw, ' . (int) $opt['h2_size'] . 'px); } }';
+            $h2 = (int) $opt['h2_size'];
+            // h2, .beta is the generic default; #comments .comments-title has its
+            // own dedicated rule and needs overriding separately.
+            $css .= 'h2, .beta, #comments .comments-title { font-size: ' . $h2 . 'px; }';
+            $css .= '@media (min-width: 568px) { h2, .beta, #comments .comments-title { font-size: ' . $h2 . 'px; } }';
         }
 
         if (!empty($opt['hide_post_meta'])) {
