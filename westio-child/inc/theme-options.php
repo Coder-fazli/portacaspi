@@ -38,7 +38,15 @@ class WC_Theme_Options {
     public function __construct() {
         add_action('admin_menu', [$this, 'menu']);
         add_action('admin_init', [$this, 'register']);
-        add_action('wp_enqueue_scripts', [$this, 'frontend_css'], 40); // After westio-child-style is enqueued (parent registers it at priority 30).
+        // Printed directly in <head> rather than via wp_add_inline_style: this
+        // site's WP-Optimize CSS minify/combine caches enqueued styles (inline
+        // styles included) to disk, keyed off file mtimes — it has no way to
+        // know a DB option changed, so an inline-style approach kept serving a
+        // stale cached value no matter what was saved in wp-admin. A raw
+        // <style> tag outside the wp_styles() dependency graph isn't part of
+        // that cache and always reflects the current option value. Priority
+        // 100 keeps it last in <head>, after every enqueued stylesheet.
+        add_action('wp_head', [$this, 'frontend_css'], 100);
         add_action('init', [$this, 'maybe_hide_comments']);
     }
 
@@ -143,8 +151,8 @@ class WC_Theme_Options {
             $css .= '.entry-meta { display: none !important; }';
         }
 
-        if ($css !== '' && wp_style_is('westio-child-style', 'enqueued')) {
-            wp_add_inline_style('westio-child-style', $css);
+        if ($css !== '') {
+            echo '<style id="wc-theme-options-css">' . $css . '</style>' . "\n";
         }
     }
 
