@@ -167,6 +167,9 @@ add_filter('westio_loop_blog', function ($classes) {
 // Footer settings admin page (per-language content).
 require_once get_stylesheet_directory() . '/inc/footer-settings.php';
 
+// Theme Options admin page (H1/H2 size, hide comments, hide post meta).
+require_once get_stylesheet_directory() . '/inc/theme-options.php';
+
 // Override the parent's button-hover script with a Unicode-safe capitalization
 // fix, without editing parent theme files. Same handle + dependencies.
 add_action('wp_enqueue_scripts', function () {
