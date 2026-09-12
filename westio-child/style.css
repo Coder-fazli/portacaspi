@@ -5,3 +5,15 @@
 * Template: westio
 * Version: 1.0.2
 */
+
+/* Single blog post: the parent theme's default gap between the header and
+   the content is very large (100px desktop / 60px mobile margin-top on
+   .site-content) — tightened here. */
+body.single-post #page .site-content {
+    margin-top: 24px;
+}
+@media (min-width: 768px) {
+    body.single-post #page .site-content {
+        margin-top: 40px;
+    }
+}
