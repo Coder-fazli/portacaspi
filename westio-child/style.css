@@ -17,3 +17,18 @@ body.single-post #page .site-content {
         margin-top: 40px;
     }
 }
+
+/* Single post: the excerpt now prints after the full-width featured image
+   (see functions.php westio_post_header override) instead of inside the
+   860px-wide .entry-header column it used to live in — this wrapper keeps
+   it aligned to that same reading width. */
+.wc-post-excerpt-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+@media (min-width: 768px) {
+    .wc-post-excerpt-wrap {
+        padding: 0 30px;
+    }
+}

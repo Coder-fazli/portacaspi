@@ -164,6 +164,42 @@ add_filter('westio_loop_blog', function ($classes) {
     return $classes;
 });
 
+// Single post: show the featured image right after the H1, with the
+// excerpt line moved below it — parent theme's default order is
+// meta + H1 + excerpt (all inside westio_post_header()), THEN the
+// featured image via a separate later hook. Overriding westio_post_header()
+// here works because child theme functions.php loads before the parent's,
+// so its function_exists() guard sees ours already defined and skips its
+// own — the same pluggable-function pattern the theme itself uses. The
+// excerpt is re-added via a new hook at priority 15, between the parent's
+// own post_thumbnail (10) and post_wrapper_start (20), so it now prints
+// after the image instead of before it.
+if (!function_exists('westio_post_header')) {
+    function westio_post_header() {
+        ?>
+        <header class="entry-header">
+            <div class="entry-meta">
+                <?php westio_post_meta([
+                    'show_cat'     => true,
+                    'show_author'  => true,
+                    'show_date'    => true,
+                    'show_comment' => false,
+                ]); ?>
+            </div>
+            <?php the_title('<h1 class="entry-title">', '</h1>'); ?>
+        </header><!-- .entry-header -->
+        <?php
+    }
+}
+
+add_action('westio_single_post', function () {
+    ?>
+    <div class="wc-post-excerpt-wrap">
+        <div class="entry-excerpt"><?php echo wp_trim_words(get_the_excerpt(), 999999); ?></div>
+    </div>
+    <?php
+}, 15);
+
 // Footer settings admin page (per-language content).
 require_once get_stylesheet_directory() . '/inc/footer-settings.php';
 
