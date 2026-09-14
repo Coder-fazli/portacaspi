@@ -2,7 +2,8 @@
 /**
  * Theme Options — admin page for the few sitewide look/behavior toggles
  * that don't belong to a specific widget or to the Header & Footer page:
- *   - H1 / H2 font size, overriding the theme's own default tag styling
+ *   - H1 / H2 font size (separate desktop / mobile values), overriding the
+ *     theme's own default tag styling
  *     (westio/style.css `h1, .alpha` / `h2, .beta`) — this is what sizes
  *     a plain H1/H2 typed into the block editor, or any Elementor heading
  *     left at its default size, plus a couple of the theme's own named
@@ -24,6 +25,8 @@ function wcto_defaults() {
     return [
         'h1_size'         => 80,
         'h2_size'         => 50,
+        'h1_size_mobile'  => 40,
+        'h2_size_mobile'  => 28,
         'hide_comments'   => false,
         'hide_post_meta'  => false,
     ];
@@ -71,6 +74,8 @@ class WC_Theme_Options {
         return [
             'h1_size'        => isset($input['h1_size']) && (int) $input['h1_size'] > 0 ? min(300, (int) $input['h1_size']) : $defaults['h1_size'],
             'h2_size'        => isset($input['h2_size']) && (int) $input['h2_size'] > 0 ? min(300, (int) $input['h2_size']) : $defaults['h2_size'],
+            'h1_size_mobile' => isset($input['h1_size_mobile']) && (int) $input['h1_size_mobile'] > 0 ? min(300, (int) $input['h1_size_mobile']) : $defaults['h1_size_mobile'],
+            'h2_size_mobile' => isset($input['h2_size_mobile']) && (int) $input['h2_size_mobile'] > 0 ? min(300, (int) $input['h2_size_mobile']) : $defaults['h2_size_mobile'],
             'hide_comments'  => !empty($input['hide_comments']),
             'hide_post_meta' => !empty($input['hide_post_meta']),
         ];
@@ -85,17 +90,31 @@ class WC_Theme_Options {
                 <?php settings_fields('wc_theme_options_group'); ?>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><?php esc_html_e('H1 font size (px)', 'westio-child'); ?></th>
+                        <th scope="row"><?php esc_html_e('H1 font size — desktop (px)', 'westio-child'); ?></th>
                         <td>
                             <input type="number" min="16" max="300" class="small-text" name="<?php echo WCTO_OPTION; ?>[h1_size]" value="<?php echo esc_attr($opt['h1_size']); ?>">
-                            <p class="description"><?php esc_html_e('The theme\'s default H1 size — applies to plain H1 headings (e.g. typed into a post with the block editor) and any Elementor heading left at its default size, plus the single blog post title and page-title fallbacks (empty blog archive, search results). Does not affect a heading you\'ve given its own custom size in Elementor.', 'westio-child'); ?></p>
+                            <p class="description"><?php esc_html_e('The theme\'s default H1 size — applies to plain H1 headings (e.g. typed into a post with the block editor) and any Elementor heading left at its default size, plus the single blog post title and page-title fallbacks (empty blog archive, search results). Does not affect a heading you\'ve given its own custom size in Elementor. Used at 568px viewport width and up.', 'westio-child'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php esc_html_e('H2 font size (px)', 'westio-child'); ?></th>
+                        <th scope="row"><?php esc_html_e('H1 font size — mobile (px)', 'westio-child'); ?></th>
+                        <td>
+                            <input type="number" min="16" max="300" class="small-text" name="<?php echo WCTO_OPTION; ?>[h1_size_mobile]" value="<?php echo esc_attr($opt['h1_size_mobile']); ?>">
+                            <p class="description"><?php esc_html_e('Same H1s as above, sized separately for narrow screens (below 568px viewport width).', 'westio-child'); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e('H2 font size — desktop (px)', 'westio-child'); ?></th>
                         <td>
                             <input type="number" min="16" max="300" class="small-text" name="<?php echo WCTO_OPTION; ?>[h2_size]" value="<?php echo esc_attr($opt['h2_size']); ?>">
-                            <p class="description"><?php esc_html_e('The theme\'s default H2 size — applies to plain H2 headings (e.g. typed into a post with the block editor) and any Elementor heading left at its default size, plus the "Comments" section heading. Does not affect a heading you\'ve given its own custom size in Elementor.', 'westio-child'); ?></p>
+                            <p class="description"><?php esc_html_e('The theme\'s default H2 size — applies to plain H2 headings (e.g. typed into a post with the block editor) and any Elementor heading left at its default size, plus the "Comments" section heading. Does not affect a heading you\'ve given its own custom size in Elementor. Used at 568px viewport width and up.', 'westio-child'); ?></p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row"><?php esc_html_e('H2 font size — mobile (px)', 'westio-child'); ?></th>
+                        <td>
+                            <input type="number" min="16" max="300" class="small-text" name="<?php echo WCTO_OPTION; ?>[h2_size_mobile]" value="<?php echo esc_attr($opt['h2_size_mobile']); ?>">
+                            <p class="description"><?php esc_html_e('Same H2s as above, sized separately for narrow screens (below 568px viewport width).', 'westio-child'); ?></p>
                         </td>
                     </tr>
                     <tr>
@@ -127,25 +146,24 @@ class WC_Theme_Options {
         $opt = wcto_get_options();
         $css = '';
 
-        if ($opt['h1_size'] !== 80) {
-            $h1 = (int) $opt['h1_size'];
-            // h1, .alpha is the theme's own generic default H1 size (westio/style.css)
-            // — governs plain content headings (Gutenberg heading blocks, Elementor
-            // headings left at their default size) that don't have a specific rule
-            // of their own. .single-post .entry-title / .page-header h1.page-title
-            // are separate, more specific theme headings with their own dedicated
-            // rule, so they need overriding too.
-            $css .= 'h1, .alpha, .single-post .entry-title, .page-header h1.page-title { font-size: ' . $h1 . 'px; }';
-            $css .= '@media (min-width: 568px) { h1, .alpha, .single-post .entry-title, .page-header h1.page-title { font-size: ' . $h1 . 'px; } }';
-        }
+        $h1 = (int) $opt['h1_size'];
+        $h1m = (int) $opt['h1_size_mobile'];
+        // h1, .alpha is the theme's own generic default H1 size (westio/style.css)
+        // — governs plain content headings (Gutenberg heading blocks, Elementor
+        // headings left at their default size) that don't have a specific rule
+        // of their own. .single-post .entry-title / .page-header h1.page-title
+        // are separate, more specific theme headings with their own dedicated
+        // rule, so they need overriding too. Mobile size applies below the
+        // theme's own 568px breakpoint, desktop size at and above it.
+        $css .= 'h1, .alpha, .single-post .entry-title, .page-header h1.page-title { font-size: ' . $h1m . 'px; }';
+        $css .= '@media (min-width: 568px) { h1, .alpha, .single-post .entry-title, .page-header h1.page-title { font-size: ' . $h1 . 'px; } }';
 
-        if ($opt['h2_size'] !== 50) {
-            $h2 = (int) $opt['h2_size'];
-            // h2, .beta is the generic default; #comments .comments-title has its
-            // own dedicated rule and needs overriding separately.
-            $css .= 'h2, .beta, #comments .comments-title { font-size: ' . $h2 . 'px; }';
-            $css .= '@media (min-width: 568px) { h2, .beta, #comments .comments-title { font-size: ' . $h2 . 'px; } }';
-        }
+        $h2 = (int) $opt['h2_size'];
+        $h2m = (int) $opt['h2_size_mobile'];
+        // h2, .beta is the generic default; #comments .comments-title has its
+        // own dedicated rule and needs overriding separately.
+        $css .= 'h2, .beta, #comments .comments-title { font-size: ' . $h2m . 'px; }';
+        $css .= '@media (min-width: 568px) { h2, .beta, #comments .comments-title { font-size: ' . $h2 . 'px; } }';
 
         if (!empty($opt['hide_post_meta'])) {
             $css .= '.entry-meta { display: none !important; }';
